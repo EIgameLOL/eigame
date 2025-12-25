@@ -1,0 +1,86 @@
+body {
+	background: black;
+	color: #FFF;
+	font-family: "Times New Roman", serif;
+	text-align: center;
+	margin: 0;
+}
+
+.logo {
+  width: 450px;
+  margin: 20px auto;
+}
+
+.menu {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.menu .btn {
+  display: inline-block;
+  padding: 2px 11px;
+  margin: 0 4px;
+  font-size: 35px;
+  font-family: Gameshape, sans-serif;
+  font-weight: regular;
+  text-decoration: none;
+  color: black;
+  border: 2px solid black;
+}
+
+/* สีแต่ละปุ่ม */
+.menu .main  { background: #00ff00; }
+.menu .news  { background: #ff00ff; }
+.menu .about { background: #ffcc00; }
+.menu .shop  { background: #ff3300; }
+
+/* Hover effect */
+.menu .btn:hover {
+  transform: scale(1.1);
+}
+
+.content {
+  width: 650px;
+  margin: 40px auto;
+  border: 1px solid white;
+  padding: 20px;
+  background: black;
+  box-sizing: border-box;
+}
+
+.content .item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.content img {
+  max-width: 200px;
+  height: auto;
+}
+
+
+.content .text h3 {
+  margin: 0 0 5px 0;
+  color: #0066ff;
+}
+
+.content .text p {
+  margin: 0;
+  font-size: 14px;
+  color: white;
+}
+
+.footer {
+  margin-top: 30px;
+}
+
+.footer img {
+  width: 110px;
+  margin: 0 5px;
+}
+
+.footer p {
+  font-size: 12px;
+  margin-top: 10px;
+}
