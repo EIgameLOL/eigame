@@ -28,7 +28,7 @@ body {
   padding: 2px 11px;
   margin: 0 4px;
   font-size: 35px;
-  font-family: Gameshape, sans-serif;
+  font-family: 'Gameshape', sans-serif;
   font-weight: regular;
   text-decoration: none;
   color: black;
@@ -91,4 +91,5 @@ body {
   font-size: 12px;
   margin-top: 10px;
 }
+
 
