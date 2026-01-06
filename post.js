@@ -84,22 +84,20 @@ var db = firebase.database();
 
 function postImage() {
   var name = document.getElementById("artistName").value.trim();
-  if (!name) {
-    alert("ใส่ชื่อก่อนโพสต์");
-    return;
-  }
+ if (!name) return;
 
-  var imgData = canvas.toDataURL("image/png"); // ← สำคัญ
+  var data = canvas.toDataURL("image/png");
 
   firebase.database().ref("fanarts").push({
-    img: imgData,
-    credit: "By " + name,
+    img: Data,
+    credit: "By "+ name,
     time: Date.now()
   }, function (error) {
     if (error) {
-      alert("โพสต์ไม่สำเร็จ");
+      alert("Error");
     } else {
       window.location.href = "fanarts.html";
     }
   });
 }
+
