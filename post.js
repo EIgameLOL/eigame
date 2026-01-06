@@ -3,13 +3,23 @@ var ctx = canvas.getContext("2d");
 
 var drawing = false;
 var tool = "pen";
+var mode = "draw";
 
-// ป้องกันหน้าจอเลื่อนบนมือถือ
-canvas.style.touchAction = "none";
-
-// พื้นหลังขาว
 ctx.fillStyle = "#fff";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+function setMode(m) {
+  mode = m;
+  document.getElementById("draw-area").style.display =
+    m === "draw" ? "block" : "none";
+  document.getElementById("import-area").style.display =
+    m === "import" ? "block" : "none";
+}
+
+function openUpload() {
+  setMode("import");
+  document.getElementById("fileInput").click();
+}
 
 function getPos(e) {
   var rect = canvas.getBoundingClientRect();
@@ -19,9 +29,8 @@ function getPos(e) {
   };
 }
 
-// ===== POINTER EVENTS (เมาส์ + นิ้ว + ปากกา) =====
+/* Pointer events */
 canvas.addEventListener("pointerdown", function (e) {
-  e.preventDefault();
   drawing = true;
   ctx.beginPath();
   var p = getPos(e);
@@ -30,12 +39,9 @@ canvas.addEventListener("pointerdown", function (e) {
 
 canvas.addEventListener("pointermove", function (e) {
   if (!drawing) return;
-  e.preventDefault();
-
-  ctx.globalCompositeOperation = "source-over";
 
   if (tool === "eraser") {
-    ctx.strokeStyle = "#ffffff";
+    ctx.strokeStyle = "#fff";
     ctx.lineWidth = 30;
   } else {
     ctx.strokeStyle = document.getElementById("color").value;
@@ -48,7 +54,6 @@ canvas.addEventListener("pointermove", function (e) {
 });
 
 canvas.addEventListener("pointerup", stopDraw);
-canvas.addEventListener("pointercancel", stopDraw);
 canvas.addEventListener("pointerleave", stopDraw);
 
 function stopDraw() {
@@ -59,20 +64,19 @@ function setTool(t) {
   tool = t;
 }
 
-// ===== NAME INPUT =====
-document.getElementById("artistName").addEventListener("input", function () {
+/* Enable Post */
+document.getElementById("artistName").oninput = function () {
   document.getElementById("postBtn").disabled =
     this.value.trim() === "";
-});
+};
 
-// ===== IMPORT IMAGE =====
+/* Import image */
 document.getElementById("fileInput").onchange = function (e) {
   var file = e.target.files[0];
   if (!file) return;
 
   var img = new Image();
   img.onload = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -92,47 +96,33 @@ document.getElementById("fileInput").onchange = function (e) {
   img.src = URL.createObjectURL(file);
 };
 
-// ===== FIREBASE =====
+/* Firebase */
 var db = firebase.database();
 var storage = firebase.storage();
 
 function postImage() {
   var name = document.getElementById("artistName").value.trim();
-  if (!name) {
-    alert("Please enter your name");
-    return;
-  }
+  if (!name) return;
 
   document.getElementById("postBtn").disabled = true;
 
   canvas.toBlob(function (blob) {
-    if (!blob) {
-      alert("Failed to export image");
-      document.getElementById("postBtn").disabled = false;
-      return;
-    }
-
     var filename = "fanart_" + Date.now() + ".png";
     var ref = storage.ref("fanarts/" + filename);
 
-    ref.put(blob)
-      .then(function () {
-        return ref.getDownloadURL();
-      })
-      .then(function (url) {
-        return db.ref("fanarts").push({
-          img: url,
-          credit: "By " + name,
-          time: Date.now()
-        });
-      })
-      .then(function () {
-        window.location.href = "fanarts.html";
-      })
-      .catch(function (err) {
-        alert(err.message);
-        document.getElementById("postBtn").disabled = false;
+    ref.put(blob).then(function () {
+      return ref.getDownloadURL();
+    }).then(function (url) {
+      return db.ref("fanarts").push({
+        img: url,
+        credit: "By " + name,
+        time: Date.now()
       });
-  }, "image/png");
+    }).then(function () {
+      window.location.href = "fanarts.html";
+    }).catch(function (err) {
+      alert(err.message);
+      document.getElementById("postBtn").disabled = false;
+    });
+  });
 }
-
