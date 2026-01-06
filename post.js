@@ -68,29 +68,20 @@ document.getElementById("artistName").onkeyup = function () {
 };
 
 // ===== IMPORT IMAGE =====
-document.getElementById("fileInput").onchange = function (e) {
+document.getElementById("fileInput").onchange = function(e){
   var file = e.target.files[0];
   if (!file) return;
 
   var img = new Image();
-  img.onload = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // เติมพื้นหลังขาว
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    var s = Math.min(
-      canvas.width / img.width,
-      canvas.height / img.height
-    );
-
+  img.onload = function(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var s = Math.min(canvas.width/img.width, canvas.height/img.height);
     ctx.drawImage(
       img,
-      (canvas.width - img.width * s) / 2,
-      (canvas.height - img.height * s) / 2,
-      img.width * s,
-      img.height * s
+      (canvas.width-img.width*s)/2,
+      (canvas.height-img.height*s)/2,
+      img.width*s,
+      img.height*s
     );
   };
   img.src = URL.createObjectURL(file);
@@ -118,3 +109,4 @@ function postImage() {
     }
   });
 }
+
