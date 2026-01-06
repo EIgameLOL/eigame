@@ -81,24 +81,25 @@ document.getElementById("fileInput").onchange = function (e) {
 
 // ===== FIREBASE POST =====
 var db = firebase.database();
-var storage = firebase.storage();
 
 function postImage() {
   var name = document.getElementById("artistName").value.trim();
-  if (!name) return;
+  if (!name) {
+    alert("ใส่ชื่อก่อนโพสต์");
+    return;
+  }
 
-  canvas.toBlob(function (blob) {
-    var ref = storage.ref("fanarts/fanart_" + Date.now() + ".png");
-    ref.put(blob).then(function () {
-      return ref.getDownloadURL();
-    }).then(function (url) {
-      return db.ref("fanarts").push({
-        img: url,
-        credit: "By " + name,
-        time: Date.now()
-      });
-    }).then(function () {
+  var imgData = canvas.toDataURL("image/png"); // ← สำคัญ
+
+  firebase.database().ref("fanarts").push({
+    img: imgData,
+    credit: "By " + name,
+    time: Date.now()
+  }, function (error) {
+    if (error) {
+      alert("โพสต์ไม่สำเร็จ");
+    } else {
       window.location.href = "fanarts.html";
-    });
+    }
   });
 }
