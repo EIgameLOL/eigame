@@ -98,22 +98,41 @@ var storage = firebase.storage();
 
 function postImage() {
   var name = document.getElementById("artistName").value.trim();
-  if (!name) return;
+  if (!name) {
+    alert("Please enter your name");
+    return;
+  }
+
+  document.getElementById("postBtn").disabled = true;
 
   canvas.toBlob(function (blob) {
+    if (!blob) {
+      alert("Failed to export image");
+      document.getElementById("postBtn").disabled = false;
+      return;
+    }
+
     var filename = "fanart_" + Date.now() + ".png";
     var ref = storage.ref("fanarts/" + filename);
 
-    ref.put(blob).then(function () {
-      ref.getDownloadURL().then(function (url) {
-        db.ref("fanarts").push({
+    ref.put(blob)
+      .then(function () {
+        return ref.getDownloadURL();
+      })
+      .then(function (url) {
+        return db.ref("fanarts").push({
           img: url,
           credit: "By " + name,
           time: Date.now()
         });
-
+      })
+      .then(function () {
         window.location.href = "fanarts.html";
+      })
+      .catch(function (err) {
+        alert(err.message);
+        document.getElementById("postBtn").disabled = false;
       });
-    });
-  });
+  }, "image/png");
 }
+
