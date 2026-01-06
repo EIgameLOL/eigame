@@ -61,13 +61,11 @@ function setTool(t) {
   tool = t;
 }
 
-// ===== NAME =====
-document.getElementById("artistName").onkeyup = function () {
+document.getElementById("artistName").onkeyup = function(){
   document.getElementById("postBtn").disabled =
     this.value.trim() === "";
 };
 
-// ===== IMPORT IMAGE =====
 document.getElementById("fileInput").onchange = function(e){
   var file = e.target.files[0];
   if (!file) return;
@@ -109,4 +107,5 @@ function postImage() {
     }
   });
 }
+
 
