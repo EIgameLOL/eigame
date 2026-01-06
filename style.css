@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'GameShape';
-  src: url('../fonts/GameShape-Regular.ttf') format('truetype');
+  src: url('fonts/GameShape-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'EIgamesimple';
-  src: url('../fonts/EIgamesimple-Regular.ttf') format('truetype');
+  src: url('fonts/EIgamesimple-Regular.ttf') format('truetype');
 }
 
 body {
@@ -224,5 +224,6 @@ footer {
   margin-top: 10px;
   font-size: 18px;
 }
+
 
 
