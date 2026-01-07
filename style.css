@@ -227,12 +227,14 @@ footer {
 
 .fanart-thumb {
   width: 160px;
-  height: 160px;
-  object-fit: cover;
+  height: 160px
+  object-fit: contain;
+  object-position: center;
   cursor: pointer;
   border: 2px solid #000;
-  background: #000;
+  background: #fff;
 }
+
 
 
 
