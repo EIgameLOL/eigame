@@ -92,11 +92,10 @@ document.getElementById("fileInput").onchange = function(e){
   img.src = URL.createObjectURL(file);
 };
 
-// ===== POST =====
 function postImage() {
   var name = document.getElementById("artistName").value.trim();
-  var desc = document.getElementById("artDesc").value.trim();
-  
+  var desc = document.getElementById("desc").value.trim();
+
   if (!name) {
     alert("Please enter your name");
     return;
@@ -106,7 +105,8 @@ function postImage() {
 
   firebase.database().ref("fanarts").push({
     img: imgData,
-    credit: "By " + name,
+    credit: "Art by: " + name,
+    desc: desc || "",
     time: Date.now()
   }, function (err) {
     if (err) {
