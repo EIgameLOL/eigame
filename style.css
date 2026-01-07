@@ -194,14 +194,14 @@ footer {
   justify-content: start;
 }
 
-/* THUMBNAIL */
 .fanart-thumb {
   width: 160px;
   height: 160px;
 
-  object-fit: cover;        /* ← จุดสำคัญ */
+  object-fit: cover;
   object-position: center;
 
+  display: block;
   background: #fff;
   border: 2px solid #000;
   cursor: pointer;
@@ -228,6 +228,7 @@ footer {
   margin-top: 10px;
   font-size: 18px;
 }
+
 
 
 
