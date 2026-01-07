@@ -14,6 +14,8 @@ db.ref("fanarts").on("value", function(snapshot){
 
 function render(){
   var grid = document.getElementById("fanart-grid");
+  if (!grid) return;
+
   grid.innerHTML = "";
 
   var reversed = fanarts.slice().reverse();
@@ -23,20 +25,20 @@ function render(){
   var items = reversed.slice(start, start + perPage);
 
   items.forEach(function(item){
-    var img = document.createElement("div");
+    var box = document.createElement("div");
     box.className = "fanart-box";
-    
+
     var img = document.createElement("img");
     img.src = item.img;
     img.className = "fanart-thumb";
     img.loading = "lazy";
 
     img.onclick = function(){
-      openModal(item.img, item.credit, item.desc);
+      openModal(item.img, item.credit || "");
     };
-    
+
     box.appendChild(img);
-    grid.appendChild(img);
+    grid.appendChild(box);
   });
 
   document.getElementById("page-info").innerText =
@@ -57,24 +59,12 @@ function prevPage(){
   }
 }
 
-function openModal(src, credit, desc){
+function openModal(src, credit){
   document.getElementById("modal").style.display = "block";
   document.getElementById("modal-img").src = src;
-
-  var text = "";
-
-  if (desc && desc.trim() !== "") {
-    text += "(" + desc + ")\n";
-  }
-
-  text += credit;
-
-  document.getElementById("modal-credit").innerText = text;
+  document.getElementById("modal-credit").innerText = credit;
 }
 
 function closeModal(){
   document.getElementById("modal").style.display = "none";
 }
-
-render();
-
