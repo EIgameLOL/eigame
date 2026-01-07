@@ -189,13 +189,6 @@ footer {
 /* GRID FANART */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 160px); /* 2x2 = 4 รูป */
-  gap: 20px;
-}
-
-/* GRID FANART */
-.grid {
-  display: grid;
   grid-template-columns: repeat(3, 160px);
   gap: 20px;
   justify-content: start;
@@ -235,19 +228,6 @@ footer {
   margin-top: 10px;
   font-size: 18px;
 }
-
-.fanart-thumb {
-  width: 160px;
-  height: 160px
-
-  object-fit: contain;
-  object-position: center;
-
-  background: #fff;
-  border: 2px solid #000;
-}
-
-
 
 
 
