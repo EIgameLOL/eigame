@@ -33,7 +33,7 @@ header {
 }
 .menu a {
   font-family: 'GameShape';
-  font-size: 40px;
+  font-size: 45px;
   padding: 6px 14px;
   margin: 0 4px;
   text-decoration: none;
@@ -233,6 +233,7 @@ footer {
   margin-top: 10px;
   font-size: 18px;
 }
+
 
 
 
