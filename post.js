@@ -6,7 +6,7 @@ var mode = "draw";
 
 canvas.style.touchAction = "none";
 
-// พื้นหลังขาว
+// BG
 ctx.fillStyle = "#fff";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -18,7 +18,7 @@ function setMode(m) {
     m === "import" ? "block" : "none";
 }
 
-// 🔹 ตำแหน่ง pointer (เมาส์ / ปากกา / นิ้ว)
+// POINTER
 function getPos(e) {
   var rect = canvas.getBoundingClientRect();
   return {
@@ -27,7 +27,7 @@ function getPos(e) {
   };
 }
 
-// ===== POINTER EVENTS =====
+// POINT EVENT
 canvas.addEventListener("pointerdown", function (e) {
   e.preventDefault();
   drawing = true;
@@ -116,6 +116,7 @@ function postImage() {
     }
   });
 }
+
 
 
 
