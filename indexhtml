@@ -16,7 +16,7 @@
 </header>
 
 <nav class="menu">
-  <a class="main active" href="main.html">Main</a>
+  <a class="main active" href="index.html">Main</a>
   <a class="news" href="news.html">News</a>
   <a class="about" href="about.html">About</a>
 </nav>
@@ -42,7 +42,7 @@
 
     <h3>Go to the</h3>
     <ul>
-      <li><a href="main.html">Main</a></li>
+      <li><a href="index.html">Main</a></li>
       <li><a href="#">Safety</a></li>
       <li><a href="#">Privacy Policy</a></li>
       <li><a href="#">FAQ</a></li>
@@ -96,6 +96,7 @@ Elgame</p>
 
 </body>
 </html>
+
 
 
 
