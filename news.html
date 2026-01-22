@@ -84,73 +84,66 @@ firebase.initializeApp({
 <script>
 const NEWS_PER_PAGE = 5;
 let allNews = [];
-let currentPage = 1;
+let page = 1;
 
 const list = document.getElementById("newsList");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
 firebase.database().ref("news")
-  .orderByChild("time")
-  .once("value")
-  .then(snapshot => {
+.orderByChild("time")
+.once("value")
+.then(snapshot => {
 
-    allNews = [];
+  allNews = [];
 
-    snapshot.forEach(child => {
-      allNews.push(child.val());
-    });
-
-    // เรียงใหม่ล่าสุดก่อน
-    allNews.sort((a,b) => b.time - a.time);
-
-    renderPage();
+  snapshot.forEach(child => {
+    allNews.push(child.val());
   });
 
-function renderPage(){
+  allNews.sort((a,b)=>b.time-a.time);
+  render();
+});
+
+function render(){
   list.innerHTML = "";
 
-  const start = (currentPage - 1) * NEWS_PER_PAGE;
+  const start = (page - 1) * NEWS_PER_PAGE;
   const end = start + NEWS_PER_PAGE;
-  const pageItems = allNews.slice(start, end);
 
-  pageItems.forEach(d => {
-    const date = d.time ? new Date(d.time).toLocaleDateString() : "";
+  allNews.slice(start, end).forEach(d => {
+    const date = new Date(d.time).toLocaleDateString();
 
-    list.innerHTML += `
-      <div class="news-item">
-        <div class="news-date">${date}</div>
-        ${d.img ? `<img src="${d.img}" class="news-img">` : ``}
-        <div class="news-text">
-          <h3>${d.title || ""}</h3>
-          <p>${d.desc || ""}</p>
-        </div>
-        <div class="clear"></div>
-      </div>
-    `;
+    list.innerHTML +=
+      '<div class="news-item">' +
+        '<div class="news-date">' + date + '</div>' +
+        (d.img ? '<img src="' + d.img + '" class="news-img">' : '') +
+        '<div class="news-text">' +
+          '<h3>' + (d.title || '') + '</h3>' +
+          '<p>' + (d.desc || '') + '</p>' +
+        '</div>' +
+        '<div class="clear"></div>' +
+      '</div>';
   });
 
-  prevBtn.disabled = currentPage === 1;
+  prevBtn.disabled = page === 1;
   nextBtn.disabled = end >= allNews.length;
 }
 
 prevBtn.onclick = () => {
-  if(currentPage > 1){
-    currentPage--;
-    renderPage();
-  }
+  if(page > 1){ page--; render(); }
 };
 
 nextBtn.onclick = () => {
-  if(currentPage * NEWS_PER_PAGE < allNews.length){
-    currentPage++;
-    renderPage();
+  if(page * NEWS_PER_PAGE < allNews.length){
+    page++; render();
   }
 };
 </script>
 
 </body>
 </html>
+
 
 
 
