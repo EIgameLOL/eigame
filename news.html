@@ -70,38 +70,34 @@ firebase.initializeApp({
 </div>
 
 <script>
-firebase.database().ref("news").on("value", snap => {
-  const box = document.getElementById("newsList");
+firebase.database().ref("news")
+.orderByChild("time")
+.on("value", function(snapshot){
+
+  var box = document.getElementById("newsList");
   box.innerHTML = "";
 
-  let items = [];
+  snapshot.forEach(function(child){
+    var d = child.val();
+    var date = d.time ? new Date(d.time).toLocaleDateString() : "";
 
-  snap.forEach(c => {
-    const d = c.val();
-    items.push(d);
+    var html =
+      '<div class="news-item">' +
+        '<div class="news-date">' + date + '</div>' +
+        (d.img ? '<img src="' + d.img + '" class="news-img">' : '') +
+        '<div class="news-text">' +
+          '<h3>' + (d.title || '') + '</h3>' +
+          '<p>' + (d.desc || '') + '</p>' +
+        '</div>' +
+      '</div>';
+
+    box.insertAdjacentHTML("afterbegin", html);
   });
 
-  // เรียงใหม่ -> เก่า
-  items.sort((a,b) => (b.time || 0) - (a.time || 0));
-
-  items.forEach(d => {
-    const date = d.time ? new Date(d.time).toLocaleDateString() : "";
-
-    box.innerHTML += `
-      <div class="news-item">
-        <div class="news-date">${date}</div>
-        ${d.img ? `<img src="${d.img}" class="news-img">` : ""}
-        <div class="news-text">
-          <h3>${d.title || ""}</h3>
-          <p>${d.desc || ""}</p>
-        </div>
-        <div class="clear"></div>
-      </div>
-    `;
-  });
 });
 </script>
 
 </body>
 </html>
+
 
