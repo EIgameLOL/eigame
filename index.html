@@ -158,35 +158,37 @@ firebase.database().ref("fanarts")
 });
 
 firebase.database().ref("news")
+.orderByChild("time")
 .limitToLast(5)
 .on("value", function(snapshot) {
 
   var box = document.getElementById("newsBox");
   box.innerHTML = "";
 
+  var items = [];
+
   snapshot.forEach(function(child){
-    var d = child.val();
+    items.push(child.val());
+  });
+
+  items.sort((a,b)=>b.time-a.time);
+
+  items.forEach(function(d){
     var date = new Date(d.time).toLocaleDateString();
 
     box.innerHTML +=
       '<div class="index-news-item">' +
-
         '<div class="index-news-date">' + date + '</div>' +
-
         '<div class="index-news-body">' +
-
           (d.img
             ? '<img src="' + d.img + '" class="index-news-img" onclick="openZoom(this.src)">'
             : ''
           ) +
-
           '<div class="index-news-text">' +
             '<div class="index-news-title">' + (d.title || '') + '</div>' +
             '<div class="index-news-desc">' + (d.desc || '') + '</div>' +
           '</div>' +
-
         '</div>' +
-
       '</div>';
   });
 
@@ -202,3 +204,4 @@ function openZoom(src){
 </script>
 </body>
 </html>
+
