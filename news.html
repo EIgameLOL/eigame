@@ -82,63 +82,76 @@ firebase.initializeApp({
 </div>
 
 <script>
-var pageSize = 5;
-var lastKey = null;
-var firstKey = null;
+const NEWS_PER_PAGE = 5;
+let allNews = [];
+let currentPage = 1;
 
-function loadNews(direction){
-  var ref = firebase.database().ref("news").orderByChild("time");
+const list = document.getElementById("newsList");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-  if(direction === "next" && lastKey){
-    ref = ref.startAfter(lastKey).limitToFirst(pageSize);
-  } else if(direction === "prev" && firstKey){
-    ref = ref.endBefore(firstKey).limitToLast(pageSize);
-  } else {
-    ref = ref.limitToFirst(pageSize);
-  }
+firebase.database().ref("news")
+  .orderByChild("time")
+  .once("value")
+  .then(snapshot => {
 
-  ref.once("value", function(snapshot){
-    var box = document.getElementById("newsList");
-    box.innerHTML = "";
+    allNews = [];
 
-    var keys = [];
-
-    snapshot.forEach(function(child){
-      keys.push(child.key);
-      var d = child.val();
-      var date = new Date(d.time).toLocaleDateString();
-
-      var html =
-        '<div class="news-item">' +
-          '<div class="news-date">' + date + '</div>' +
-          (d.img ? '<img src="'+d.img+'" class="news-img">' : '') +
-          '<div class="news-text">' +
-            '<h3>'+d.title+'</h3>' +
-            '<p>'+d.desc+'</p>' +
-          '</div>' +
-        '</div>';
-
-      box.insertAdjacentHTML("afterbegin", html);
+    snapshot.forEach(child => {
+      allNews.push(child.val());
     });
 
-    firstKey = keys[0];
-    lastKey  = keys[keys.length - 1];
+    // เรียงใหม่ล่าสุดก่อน
+    allNews.sort((a,b) => b.time - a.time);
+
+    renderPage();
   });
+
+function renderPage(){
+  list.innerHTML = "";
+
+  const start = (currentPage - 1) * NEWS_PER_PAGE;
+  const end = start + NEWS_PER_PAGE;
+  const pageItems = allNews.slice(start, end);
+
+  pageItems.forEach(d => {
+    const date = d.time ? new Date(d.time).toLocaleDateString() : "";
+
+    list.innerHTML += `
+      <div class="news-item">
+        <div class="news-date">${date}</div>
+        ${d.img ? `<img src="${d.img}" class="news-img">` : ``}
+        <div class="news-text">
+          <h3>${d.title || ""}</h3>
+          <p>${d.desc || ""}</p>
+        </div>
+        <div class="clear"></div>
+      </div>
+    `;
+  });
+
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = end >= allNews.length;
 }
 
-loadNews();
-
-document.getElementById("nextBtn").onclick = function(){
-  loadNews("next");
+prevBtn.onclick = () => {
+  if(currentPage > 1){
+    currentPage--;
+    renderPage();
+  }
 };
 
-document.getElementById("prevBtn").onclick = function(){
-  loadNews("prev");
+nextBtn.onclick = () => {
+  if(currentPage * NEWS_PER_PAGE < allNews.length){
+    currentPage++;
+    renderPage();
+  }
 };
 </script>
 
 </body>
 </html>
+
 
 
 
