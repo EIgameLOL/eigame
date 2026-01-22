@@ -119,6 +119,7 @@ body {
 .news-header {
   font-weight: bold;
   font-size: 14px;
+  font-family: 'GameShape';
 }
 
 #pagination{
@@ -286,7 +287,6 @@ body {
 
 .news-text h3 {
   margin: 0 0 5px 0;
-  font-family: 'GameShape';
   font-size: 18px;
 }
 
@@ -506,6 +506,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
