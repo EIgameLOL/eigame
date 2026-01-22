@@ -51,53 +51,94 @@ firebase.initializeApp({
   <a href="#"><img src="ui/gameart.png"></a>
 </div>
 
+<!-- MAIN -->
 <div id="main">
+
   <div class="news-box">
     <div class="news-header">News</div>
+
     <div id="newsList"></div>
+
+    <!-- PAGINATION -->
+    <div id="pagination">
+      <button id="prevBtn">Prev</button>
+      <button id="nextBtn">Next</button>
+    </div>
+
   </div>
+
 </div>
 
+<!-- FOOTER -->
 <div id="footer">
-| <a href="index.html">Home</a> |
-<a href="about.html">About Us</a> |
-<a href="privacy.html">Privacy Policy</a> |
-<a href="safety.html">Safety</a> |
-<a href="info.html">Info</a> |<br>
-©2026 ElgameLOL
+  | <a href="index.html">Home</a> |
+  <a href="about.html">About Us</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="safety.html">Safety</a> |
+  <a href="info.html">Info</a> |<br>
+  ©2026 ElgameLOL
 </div>
 
 </div>
 
 <script>
-firebase.database().ref("news")
-.orderByChild("time")
-.on("value", function(snapshot){
+var pageSize = 5;
+var lastKey = null;
+var firstKey = null;
 
-  var box = document.getElementById("newsList");
-  box.innerHTML = "";
+function loadNews(direction){
+  var ref = firebase.database().ref("news").orderByChild("time");
 
-  snapshot.forEach(function(child){
-    var d = child.val();
-    var date = d.time ? new Date(d.time).toLocaleDateString() : "";
+  if(direction === "next" && lastKey){
+    ref = ref.startAfter(lastKey).limitToFirst(pageSize);
+  } else if(direction === "prev" && firstKey){
+    ref = ref.endBefore(firstKey).limitToLast(pageSize);
+  } else {
+    ref = ref.limitToFirst(pageSize);
+  }
 
-    var html =
-      '<div class="news-item">' +
-        '<div class="news-date">' + date + '</div>' +
-        (d.img ? '<img src="' + d.img + '" class="news-img">' : '') +
-        '<div class="news-text">' +
-          '<h3>' + (d.title || '') + '</h3>' +
-          '<p>' + (d.desc || '') + '</p>' +
-        '</div>' +
-      '</div>';
+  ref.once("value", function(snapshot){
+    var box = document.getElementById("newsList");
+    box.innerHTML = "";
 
-    box.insertAdjacentHTML("afterbegin", html);
+    var keys = [];
+
+    snapshot.forEach(function(child){
+      keys.push(child.key);
+      var d = child.val();
+      var date = new Date(d.time).toLocaleDateString();
+
+      var html =
+        '<div class="news-item">' +
+          '<div class="news-date">' + date + '</div>' +
+          (d.img ? '<img src="'+d.img+'" class="news-img">' : '') +
+          '<div class="news-text">' +
+            '<h3>'+d.title+'</h3>' +
+            '<p>'+d.desc+'</p>' +
+          '</div>' +
+        '</div>';
+
+      box.insertAdjacentHTML("afterbegin", html);
+    });
+
+    firstKey = keys[0];
+    lastKey  = keys[keys.length - 1];
   });
+}
 
-});
+loadNews();
+
+document.getElementById("nextBtn").onclick = function(){
+  loadNews("next");
+};
+
+document.getElementById("prevBtn").onclick = function(){
+  loadNews("prev");
+};
 </script>
 
 </body>
 </html>
+
 
 
