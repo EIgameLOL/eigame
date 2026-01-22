@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EIgameLOL webpage - Fanarts</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="icon" href="icon.ico" type="image/x-icon">
+</head>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
+    authDomain: "eigame-fanarts.firebaseapp.com",
+    databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
+    projectId: "eigame-fanarts"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="header">
+  <img src="ui/banner.png" width="1001" height="219" alt="">
+</div>
+
+  <!-- MENU + SEARCH -->
+<div id="menu">
+  <a href="index.html">Home</a> |
+  <a href="about.html">About Us</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="safety.html">Safety</a> |
+  <a href="info.html">Info</a>
+
+  <form id="searchBox" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search" required>
+    <button type="submit">Go</button>
+  </form>
+</div>
+
+  <!-- IMAGE MENU -->
+<div id="img-menu">
+  <a href="news.html"><img src="ui/news.png"></a>
+  <a href="comics.html"><img src="ui/comics.png"></a>
+  <a href="games.html"><img src="ui/games.png"></a>
+  <a href="fanarts.html"><img src="ui/fanarts.png"></a>
+  <a href="#"><img src="ui/gameart.png"></a>
+</div>
+
+<div id="main">
+
+<div class="fanarts-header">
+  <span>Fanarts</span>
+  <a href="post.html" class="post-btn">Post</a>
+</div>
+
+<div id="fanartsList"></div>
+
+<div class="pagination">
+  <button onclick="prevPage()">&lt;&lt;</button>
+  <span id="pageNum">1</span>
+  <button onclick="nextPage()">&gt;&gt;</button>
+</div>
+
+</div>
+
+<div id="footer">
+    | <a href="index.html">Home</a> |
+    <a href="about.html">About Us</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="safety.html">Safety</a> |
+    <a href="info.html">Info</a> |<br>
+    ©2026 ElgameLOL
+  </div>
+
+</div>
+
+<div id="zoom" onclick="this.style.display='none'">
+  <img id="zoomImg">
+</div>
+
+<script>
+var page = 1;
+var perPage = 8;   // ⭐ เปลี่ยนเป็น 8
+var allData = [];
+
+firebase.database().ref("fanarts")
+.orderByChild("time")
+.on("value", function(snapshot){
+  allData = [];
+  snapshot.forEach(function(child){
+    allData.unshift(child.val());
+  });
+  render();
+});
+
+function render(){
+  var box = document.getElementById("fanartsList");
+  box.innerHTML = "";
+
+  var start = (page - 1) * perPage;
+  var end = start + perPage;
+  var pageData = allData.slice(start, end);
+
+  // แสดง fanart ที่มีจริง
+  pageData.forEach(function(d){
+
+    if(!d.credit || d.credit.trim() === ""){
+      return;
+    }
+
+    box.innerHTML +=
+      '<div class="fanart-item">' +
+        '<div class="fanart-thumb" onclick="zoomImg(\'' + d.img + '\')">' +
+          '<img src="' + d.img + '">' +
+        '</div>' +
+        '<div class="fanart-text">' +
+          '<b>' + d.credit + '</b><br>' +
+          (d.desc && d.desc.trim() !== "" ? d.desc : 'No description.') +
+        '</div>' +
+      '</div>';
+  });
+
+  // ⭐ เติมช่องว่างให้ครบ 8
+  for(var i = pageData.length; i < perPage; i++){
+    box.innerHTML +=
+      '<div class="fanart-item empty">' +
+        '<div class="fanart-thumb">' +
+          '<img src="images/empty.png">' +
+        '</div>' +
+        '<div class="fanart-text">Empty slot</div>' +
+      '</div>';
+  }
+
+  var totalPage = Math.max(1, Math.ceil(allData.length / perPage));
+  document.getElementById("pageNum").innerText = page + " / " + totalPage;
+}
+
+function nextPage(){
+  if(page * perPage < allData.length){
+    page++;
+    render();
+  }
+}
+
+function prevPage(){
+  if(page > 1){
+    page--;
+    render();
+  }
+}
+
+function zoomImg(src){
+  document.getElementById("zoomImg").src = src;
+  document.getElementById("zoom").style.display = "flex";
+}
+</script>
+
+</body>
+</html>

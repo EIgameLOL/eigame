@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Post Fanart</title>
+<link rel="stylesheet" href="post.css">
+</head>
+
+<body>
+
+<div class="top-bar">
+  <button onclick="setMode('draw')">Draw</button>
+  <button onclick="setMode('import')">Upload</button>
+  <input type="text" id="artistName" placeholder="Type your name here">
+  <input type="text" id="artDesc" placeholder="Add description...">
+  <button id="postBtn" onclick="postImage()">Post</button>
+</div>
+
+<div id="draw-area">
+  <canvas id="canvas" width="780" height="780"></canvas>
+  <div class="tools">
+  <button onclick="setTool('pen')">Pen</button>
+  <button onclick="setTool('eraser')">Eraser</button>
+  <button onclick="setTool('fill')">Fill</button>
+
+  <input type="color" id="color" value="#000000">
+
+  <label>
+    Size
+    <input type="range" id="brushSize" min="1" max="60" value="9">
+  </label>
+</div>
+</div>
+
+<div id="import-area" style="display:none;">
+  <input type="file" id="fileInput" accept="image/*">
+</div>
+
+<!-- Firebase v8 (CDN) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
+    authDomain: "eigame-fanarts.firebaseapp.com",
+    databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
+    projectId: "eigame-fanarts",
+    storageBucket: "eigame-fanarts.appspot.com",
+    messagingSenderId: "88217495036",
+    appId: "1:88217495036:web:f65db20464cc0528a2be79"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="post.js"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EIgameLOL webpage - About</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon.png" type="image/png">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+  <!-- HEADER -->
+  <div id="header">
+    <img src="ui/banner.png" width="1001" height="219" alt="">
+  </div>
+
+  <!-- MENU + SEARCH -->
+  <div id="menu">
+    <a href="index.html">Home</a> |
+    <a href="about.html">About Us</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="safety.html">Safety</a> |
+    <a href="info.html">Info</a>
+
+    <form id="searchBox" action="search.html" method="get">
+      <input type="text" name="q" placeholder="Search" required>
+      <button type="submit">Go</button>
+    </form>
+  </div>
+
+  <!-- IMAGE MENU -->
+  <div id="img-menu">
+    <a href="news.html"><img src="ui/news.png"></a>
+    <a href="comics.html"><img src="ui/comics.png"></a>
+    <a href="games.html"><img src="ui/games.png"></a>
+    <a href="fanarts.html"><img src="ui/fanarts.png"></a>
+    <a href="#"><img src="ui/gameart.png"></a>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+      <div class="side-title">About Us</div>
+
+      <div class="side-link active" onclick="showTab('about', this)">About</div>
+      <div class="side-link" onclick="showTab('history', this)">History</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content">
+
+      <div id="about" class="tab-content active">
+        <h2>About ElgameLOL</h2>
+        <p>
+          ElgameLOL is an illustrator, animator and composer from Thailand. His nickname is "Game" but why the "EI" prefix? Because it's a Thai slang term used "ไอ้" so in Thai it's called "ไอ้เกม" and have so many socials of YouTube, Discord, Tik Tok, Instagram, Newground, Twitter and Spotify for listening song album
+        </p>
+      </div>
+
+      <div id="history" class="tab-content">
+        <h2>History of ElgameLOL</h2>
+        <p>
+          In 2020, Game started his own YouTube channel called "SaffranyeepongXP." It was a small channel posting Among Us animations and random videos-a typical channel with just random stuff. Towards the end of 2021, Game old account started to get suspended, so Game abandoned the channel, leaving it completely inactive. It's really a shame.
+        </p>
+        <p>
+          Then, in 2024, Game started using a new account called "Elgame," but didn't post anything on YouTube anymore. Game joined Discord in January and joined @Tonoboi Tonezcord server, posting Eddsworld drawings, chatting, encouraging each other, and following each Tono. Tono and his friends grew up supporting Game and becoming best friends forever. At that time, Game YouTube channel featured Eddsworld reanimations, animations of Eddsworld remade with different art styles. Game stopped making Eddsworld reanimations at the end of 2024 because it might infringe on their copyright. Game then continued only drawing fan art for Eddsworld on Discord.
+        </p>
+        <p>
+          By 2025, Game started creating his own Tik Tok account and posting animated memes, which garnered tens of thousands of views. Tik Tok has become a prominent platform for posting now.
+        </p>
+      </div>
+
+    </div>
+
+    <div style="clear: both;"></div>
+  </div>
+
+  <div id="footer">
+    | <a href="index.html">Home</a> |
+    <a href="about.html">About Us</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="safety.html">Safety</a> |
+    <a href="info.html">Info</a> |<br>
+    ©2026 ElgameLOL
+  </div>
+
+</div>
+
+<script>
+function showTab(tabId, el) {
+  var tabs = document.getElementsByClassName("tab-content");
+  var links = document.getElementsByClassName("side-link");
+
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.remove("active");
+    links[i].classList.remove("active");
+  }
+
+  document.getElementById(tabId).classList.add("active");
+  el.classList.add("active");
+}
+</script>
+
+</body>
+</html>
