@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'GameShape';
-  src: url('fonts/GameShape-Regular.ttf') format('truetype');
+  src: url('GameShape-Regular.ttf') format('truetype');
 }
 
 html, body {
@@ -506,6 +506,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
