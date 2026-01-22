@@ -2,10 +2,6 @@
   font-family: 'GameShape';
   src: url('fonts/GameShape-Regular.ttf') format('truetype');
 }
-@font-face {
-  font-family: 'EIgamesimple';
-  src: url('fonts/EIgamesimple-Regular.ttf') format('truetype');
-}
 
 html, body {
   height: 100%;
@@ -511,6 +507,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
