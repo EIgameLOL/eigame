@@ -126,6 +126,18 @@ body {
   font-family: 'GameShape';
 }
 
+#pagination{
+  text-align:center;
+  margin:15px 0;
+}
+
+#pagination button{
+  border:2px solid #000;
+  background:#ddd;
+  padding:4px 10px;
+  cursor:pointer;
+}
+
 /* columns */
 .left {
   width: 260px;
@@ -499,6 +511,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
