@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EIgameLOL webpage - News</title>
+<meta charset="UTF-8">
+<title>EIgameLOL webpage - News</title>
 
-  <link rel="stylesheet" href="style.css">
-
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="icon" href="icon.ico" type="image/x-icon">
-</head>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="icon" href="icon.ico" type="image/x-icon">
 
 <!-- Firebase v8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-var firebaseConfig = {
+firebase.initializeApp({
   apiKey: "AIzaSyxxxxx",
   authDomain: "eigamelol.firebaseapp.com",
   databaseURL: "https://eigamelol-default-rtdb.firebaseio.com",
   projectId: "eigamelol"
-};
-firebase.initializeApp(firebaseConfig);
+});
 </script>
 </head>
 
@@ -30,10 +27,9 @@ firebase.initializeApp(firebaseConfig);
 <div id="wrapper">
 
 <div id="header">
-  <img src="ui/banner.png" width="1001" height="219" alt="">
+  <img src="ui/banner.png" width="1001" height="219">
 </div>
 
-  <!-- MENU + SEARCH -->
 <div id="menu">
   <a href="index.html">Home</a> |
   <a href="about.html">About Us</a> |
@@ -47,24 +43,18 @@ firebase.initializeApp(firebaseConfig);
   </form>
 </div>
 
-  <!-- IMAGE MENU -->
 <div id="img-menu">
   <a href="news.html"><img src="ui/news.png"></a>
   <a href="comics.html"><img src="ui/comics.png"></a>
   <a href="games.html"><img src="ui/games.png"></a>
   <a href="fanarts.html"><img src="ui/fanarts.png"></a>
-  <a href="#"><img src="ui/gameart.png"></a>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="main">
-
   <div class="news-box">
     <div class="news-header">News</div>
     <div id="newsList"></div>
-    <div class="clear"></div>
   </div>
-
 </div>
 
 <div id="footer">
@@ -78,38 +68,36 @@ firebase.initializeApp(firebaseConfig);
 
 </div>
 
-<!-- Zoom -->
-<div id="zoom" onclick="this.style.display='none'">
-  <img id="zoomImg">
-</div>
-
 <script>
-firebase.database().ref("news")
-.orderByChild("time")
-.on("value", function(snapshot){
-
-  console.log("SNAPSHOT =", snapshot.val());
-
-  var box = document.getElementById("newsList");
+firebase.database().ref("news").on("value", snap => {
+  const box = document.getElementById("newsList");
   box.innerHTML = "";
 
-  snapshot.forEach(function(child){
-    var d = child.val();
-    var date = d.time ? new Date(d.time).toLocaleDateString() : "";
+  let items = [];
 
-    box.innerHTML =
-      '<div class="news-item">' +
-        '<div class="news-date">' + date + '</div>' +
-        (d.img ? '<img src="' + d.img + '" class="news-img">' : '') +
-        '<div class="news-text">' +
-          '<h3>' + (d.title || '') + '</h3>' +
-          '<p>' + (d.desc || '') + '</p>' +
-        '</div>' +
-        '<div class="clear"></div>' +
-      '</div>' +
-      box.innerHTML;
+  snap.forEach(c => {
+    const d = c.val();
+    items.push(d);
   });
 
+  // เรียงใหม่ -> เก่า
+  items.sort((a,b) => (b.time || 0) - (a.time || 0));
+
+  items.forEach(d => {
+    const date = d.time ? new Date(d.time).toLocaleDateString() : "";
+
+    box.innerHTML += `
+      <div class="news-item">
+        <div class="news-date">${date}</div>
+        ${d.img ? `<img src="${d.img}" class="news-img">` : ""}
+        <div class="news-text">
+          <h3>${d.title || ""}</h3>
+          <p>${d.desc || ""}</p>
+        </div>
+        <div class="clear"></div>
+      </div>
+    `;
+  });
 });
 </script>
 
