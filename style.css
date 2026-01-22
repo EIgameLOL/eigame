@@ -220,7 +220,6 @@ body {
 }
 
 .index-news-title{
-  font-family:'MS Sans Serif';
   font-size:18px;
   margin-bottom:6px;
 }
@@ -506,6 +505,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
