@@ -1,62 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EIgameLOL - Search</title>
+<meta charset="UTF-8">
+<title>EIgameLOL - Search</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="icon" href="icon.ico" type="image/x-icon">
 
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="icon" href="icon.ico" type="image/x-icon">
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyxxxxx",
+  authDomain: "eigamelol.firebaseapp.com",
+  databaseURL: "https://eigamelol-default-rtdb.firebaseio.com",
+  projectId: "eigamelol"
+});
+</script>
 </head>
 
 <body>
 
 <div id="wrapper">
 
-  <!-- HEADER -->
-  <div id="header">
-    <img src="ui/banner.png" width="1001" height="219" alt="">
-  </div>
+<div id="header">
+  <img src="ui/banner.png" width="1001" height="219">
+</div>
 
-  <!-- MENU + SEARCH -->
-  <div id="menu">
-    <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a>
+<div id="menu">
+  <a href="index.html">Home</a> |
+  <a href="about.html">About Us</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="safety.html">Safety</a> |
+  <a href="info.html">Info</a>
 
-    <form id="searchBox" action="search.html" method="get">
-      <input type="text" name="q" placeholder="Search" required>
-      <button type="submit">Go</button>
-    </form>
-  </div>
+  <form id="searchBox" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search" required>
+    <button type="submit">Go</button>
+  </form>
+</div>
 
-  <!-- IMAGE MENU -->
-  <div id="img-menu">
-    <a href="news.html"><img src="ui/news.png"></a>
-    <a href="comics.html"><img src="ui/comics.png"></a>
-    <a href="games.html"><img src="ui/games.png"></a>
-    <a href="fanarts.html"><img src="ui/fanarts.png"></a>
-    <a href="#"><img src="ui/gameart.png"></a>
-  </div>
+<div id="img-menu">
+  <a href="news.html"><img src="ui/news.png"></a>
+  <a href="comics.html"><img src="ui/comics.png"></a>
+  <a href="games.html"><img src="ui/games.png"></a>
+  <a href="fanarts.html"><img src="ui/fanarts.png"></a>
+  <a href="#"><img src="ui/gameart.png"></a>
+</div>
 
-  <!-- MAIN -->
-  <div id="main">
-    <h2 id="searchTitle"></h2>
-    <div id="searchResults"></div>
-  </div>
+<div id="main">
+  <h2 id="searchTitle"></h2>
+  <div id="searchResults"></div>
+</div>
 
-  <!-- FOOTER -->
-  <div id="footer">
-    | <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a> |<br>
-    ©2026 ElgameLOL
-  </div>
+<div id="footer">
+| <a href="index.html">Home</a> |
+<a href="about.html">About Us</a> |
+<a href="privacy.html">Privacy Policy</a> |
+<a href="safety.html">Safety</a> |
+<a href="info.html">Info</a> |<br>
+©2026 ElgameLOL
+</div>
 
 </div>
 
