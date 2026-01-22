@@ -140,9 +140,17 @@ nextBtn.onclick = () => {
   }
 };
 </script>
-
+<script>
+function openZoom(src){
+  var zoom = document.getElementById("zoom");
+  var zoomImg = document.getElementById("zoomImg");
+  zoomImg.src = src;
+  zoom.style.display = "flex";
+}
+</script>
 </body>
 </html>
+
 
 
 
