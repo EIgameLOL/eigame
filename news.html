@@ -100,49 +100,37 @@ firebase.database().ref("news")
 .then(snapshot => {
 
   allNews = [];
-
-  snapshot.forEach(child => {
-    allNews.push(child.val());
-  });
-
+  snapshot.forEach(c => allNews.push(c.val()));
   allNews.sort((a,b)=>b.time-a.time);
   render();
 });
 
 function render(){
   list.innerHTML = "";
-
-  const start = (page - 1) * NEWS_PER_PAGE;
+  const start = (page-1)*NEWS_PER_PAGE;
   const end = start + NEWS_PER_PAGE;
 
-  allNews.slice(start, end).forEach(d => {
+  allNews.slice(start,end).forEach(d=>{
     const date = new Date(d.time).toLocaleDateString();
 
-    list.innerHTML +=
-      '<div class="news-item">' +
-        '<div class="news-date">' + date + '</div>' +
-        (d.img ? '<img src="' + d.img + '" class="news-img">' : '') +
-        '<div class="news-text">' +
-          '<h3>' + (d.title || '') + '</h3>' +
-          '<p>' + (d.desc || '') + '</p>' +
-        '</div>' +
-        '<div class="clear"></div>' +
-      '</div>';
+    list.innerHTML += `
+    <div class="news-item">
+      <div class="news-date">${date}</div>
+      ${d.img ? `<img src="${d.img}" class="news-img" onclick="openZoom(this.src)">` : ""}
+      <div class="news-text">
+        <h3>${d.title || ""}</h3>
+        <p>${d.desc || ""}</p>
+      </div>
+      <div class="clear"></div>
+    </div>`;
   });
 
   prevBtn.disabled = page === 1;
   nextBtn.disabled = end >= allNews.length;
 }
 
-prevBtn.onclick = () => {
-  if(page > 1){ page--; render(); }
-};
-
-nextBtn.onclick = () => {
-  if(page * NEWS_PER_PAGE < allNews.length){
-    page++; render();
-  }
-};
+prevBtn.onclick = ()=>{ if(page>1){page--;render();}};
+nextBtn.onclick = ()=>{ if(page*NEWS_PER_PAGE<allNews.length){page++;render();}};
 </script>
 <script>
 function openZoom(src){
@@ -158,6 +146,7 @@ function closeZoom(){
 </script>
 </body>
 </html>
+
 
 
 
