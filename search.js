@@ -1,51 +1,64 @@
+// ===== GET KEYWORD =====
 const params = new URLSearchParams(location.search);
 const keywordRaw = params.get("q") || "";
-const keyword = keywordRaw.toLowerCase();
+const keyword = keywordRaw.trim().toLowerCase();
 
 const titleEl = document.getElementById("searchTitle");
 const box = document.getElementById("searchResults");
 
 if (!keyword) {
   titleEl.innerText = "Please enter a search keyword.";
-  throw "";
+  throw new Error("No keyword");
 }
 
 titleEl.innerText = `Search result for "${keywordRaw}"`;
 
+// ===== FIREBASE =====
 const db = firebase.database();
+
+// ใช้แค่ 2 หมวดจริง ๆ
+const SOURCES = [
+  { path: "news",    title: "News",    fields: ["title", "desc"] },
+  { path: "fanarts", title: "Fanarts", fields: ["credit", "desc"] }
+];
+
 let total = 0;
 let loaded = 0;
-const NEED = 2; // news + fanarts
+const NEED = SOURCES.length;
 
-function match(...txt) {
-  return txt.some(t => typeof t === "string" && t.toLowerCase().includes(keyword));
+// ===== MATCH FUNCTION =====
+function match(text) {
+  return text && text.toLowerCase().includes(keyword);
 }
 
+// ===== RENDER =====
 function renderSection(title, items) {
-  if (!items.length) return;
+  if (items.length === 0) return;
 
   total += items.length;
 
   let html = `<div class="search-category"><h3>${title}</h3>`;
+
   items.forEach(d => {
     html += `
       <div class="search-item">
-        ${d.img ? `<img src="${d.img}">` : ""}
+        ${d.img ? `<img src="${d.img}" onclick="openZoom(this.src)">` : ""}
         <div class="search-text">
-          <b>${d.title || d.credit || "(no title)"}</b><br>
+          <b>${d.title || d.credit || ""}</b><br>
           ${d.desc || ""}
         </div>
       </div>
     `;
   });
-  html += `</div>`;
 
-  box.innerHTML += html;
+  html += `</div>`;
+  box.insertAdjacentHTML("beforeend", html);
 }
 
+// ===== DONE =====
 function done() {
   loaded++;
-  if (loaded >= NEED) {
+  if (loaded === NEED) {
     titleEl.innerText = `"${keywordRaw}" (${total}) result found`;
     if (total === 0) {
       box.innerHTML = "<p style='margin:10px'>No results found.</p>";
@@ -53,28 +66,22 @@ function done() {
   }
 }
 
-/* ===== NEWS ===== */
-db.ref("news").once("value")
-.then(snap => {
-  const arr = [];
-  snap.forEach(c => {
-    const d = c.val();
-    if (match(d.title, d.desc)) arr.push(d);
-  });
-  renderSection("News", arr);
-})
-.catch(err => console.error("NEWS error:", err))
-.finally(done);
-
-/* ===== FANARTS ===== */
-db.ref("fanarts").once("value")
-.then(snap => {
-  const arr = [];
-  snap.forEach(c => {
-    const d = c.val();
-    if (match(d.credit, d.desc)) arr.push(d);
-  });
-  renderSection("Fanarts", arr);
-})
-.catch(err => console.error("FANARTS error:", err))
-.finally(done);
+// ===== LOAD DATA =====
+SOURCES.forEach(src => {
+  db.ref(src.path).once("value")
+    .then(snapshot => {
+      const arr = [];
+      snapshot.forEach(c => {
+        const d = c.val();
+        if (src.fields.some(f => match(d[f]))) {
+          arr.push(d);
+        }
+      });
+      renderSection(src.title, arr);
+      done();
+    })
+    .catch(err => {
+      console.warn("Firebase skip:", src.path);
+      done();
+    });
+});
