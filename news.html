@@ -79,6 +79,10 @@ firebase.initializeApp({
   ©2026 ElgameLOL
 </div>
 
+<div id="zoom" onclick="closeZoom()">
+  <img id="zoomImg">
+</div>
+
 </div>
 
 <script>
@@ -140,8 +144,21 @@ nextBtn.onclick = () => {
   }
 };
 </script>
+<script>
+function openZoom(src){
+  const z = document.getElementById("zoom");
+  const img = document.getElementById("zoomImg");
+  img.src = src;
+  z.style.display = "flex";
+}
+
+function closeZoom(){
+  document.getElementById("zoom").style.display = "none";
+}
+</script>
 </body>
 </html>
+
 
 
 
