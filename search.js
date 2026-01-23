@@ -15,41 +15,37 @@ titleEl.innerText = `Search result for "${keywordRaw}"`;
 const db = firebase.database();
 let total = 0;
 let loaded = 0;
-const NEED = 2; // 🔥 เหลือแค่ news + fanarts
+const NEED = 2; // news + fanarts
 
 function match(...txt) {
-  return txt.some(t => t && t.toLowerCase().includes(keyword));
+  return txt.some(t => typeof t === "string" && t.toLowerCase().includes(keyword));
 }
 
 function renderSection(title, items) {
-  if (items.length === 0) return;
+  if (!items.length) return;
 
   total += items.length;
 
-  let html = `
-    <div class="search-category">
-      <h3>${title}</h3>
-  `;
-
+  let html = `<div class="search-category"><h3>${title}</h3>`;
   items.forEach(d => {
     html += `
       <div class="search-item">
-        ${d.img ? `<img src="${d.img}" onclick="openZoom(this.src)">` : ""}
+        ${d.img ? `<img src="${d.img}">` : ""}
         <div class="search-text">
-          <b>${d.title || d.credit || ""}</b><br>
+          <b>${d.title || d.credit || "(no title)"}</b><br>
           ${d.desc || ""}
         </div>
       </div>
     `;
   });
-
   html += `</div>`;
+
   box.innerHTML += html;
 }
 
 function done() {
   loaded++;
-  if (loaded === NEED) {
+  if (loaded >= NEED) {
     titleEl.innerText = `"${keywordRaw}" (${total}) result found`;
     if (total === 0) {
       box.innerHTML = "<p style='margin:10px'>No results found.</p>";
@@ -58,23 +54,27 @@ function done() {
 }
 
 /* ===== NEWS ===== */
-db.ref("news").once("value", s => {
+db.ref("news").once("value")
+.then(snap => {
   const arr = [];
-  s.forEach(c => {
+  snap.forEach(c => {
     const d = c.val();
     if (match(d.title, d.desc)) arr.push(d);
   });
   renderSection("News", arr);
-  done();
-});
+})
+.catch(err => console.error("NEWS error:", err))
+.finally(done);
 
 /* ===== FANARTS ===== */
-db.ref("fanarts").once("value", s => {
+db.ref("fanarts").once("value")
+.then(snap => {
   const arr = [];
-  s.forEach(c => {
+  snap.forEach(c => {
     const d = c.val();
     if (match(d.credit, d.desc)) arr.push(d);
   });
   renderSection("Fanarts", arr);
-  done();
-});
+})
+.catch(err => console.error("FANARTS error:", err))
+.finally(done);
