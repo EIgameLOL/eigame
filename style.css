@@ -501,13 +501,15 @@ a:hover {
   min-height: 100%;
 }
 
-#searchTitle{
-  font-size:18px;
-  margin:10px;
+.search-category{
+  margin:20px 10px;
 }
 
-.search-category{
-  margin-bottom:25px;
+.search-category h3{
+  background:#aaa;
+  padding:5px;
+  margin-bottom:10px;
+  font-size:16px;
 }
 
 .search-item{
@@ -526,25 +528,3 @@ a:hover {
 .search-text{
   font-size:14px;
 }
-
-.search-text a{
-  color:#000;
-  text-decoration:underline;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
