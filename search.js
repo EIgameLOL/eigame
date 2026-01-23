@@ -94,3 +94,14 @@ SOURCES.forEach(src => {
     })
     .catch(() => done());
 });
+
+function openZoom(src){
+  const z = document.getElementById("zoom");
+  const img = document.getElementById("zoomImg");
+  img.src = src;
+  z.style.display = "flex";
+}
+
+function closeZoom(){
+  document.getElementById("zoom").style.display = "none";
+}
