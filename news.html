@@ -87,50 +87,75 @@ firebase.initializeApp({
 
 <script>
 const NEWS_PER_PAGE = 7;
-let allNews = [];
-let page = 1;
+let newsData = [];
+let currentPage = 0;
 
 const list = document.getElementById("newsList");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
 firebase.database().ref("news")
-.orderByChild("time")
-.once("value")
-.then(snapshot => {
+  .orderByChild("time")
+  .once("value")
+  .then(snap => {
 
-  allNews = [];
-  snapshot.forEach(c => allNews.push(c.val()));
-  allNews.sort((a,b)=>b.time-a.time);
-  render();
-});
+    newsData = [];
 
-function render(){
+    snap.forEach(child => {
+      const d = child.val();
+      d._key = child.key;
+      newsData.push(d);
+    });
+
+    // เรียงใหม่: ล่าสุดขึ้นก่อน
+    newsData.sort((a, b) => b.time - a.time);
+
+    renderPage();
+  });
+
+function renderPage(){
   list.innerHTML = "";
-  const start = (page-1)*NEWS_PER_PAGE;
+
+  const start = currentPage * NEWS_PER_PAGE;
   const end = start + NEWS_PER_PAGE;
 
-  allNews.slice(start,end).forEach(d=>{
+  newsData.slice(start, end).forEach(d => {
     const date = new Date(d.time).toLocaleDateString();
 
     list.innerHTML += `
-    <div class="news-item">
-      <div class="news-date">${date}</div>
-      ${d.img ? `<img src="${d.img}" class="news-img" onclick="openZoom(this.src)">` : ""}
-      <div class="news-text">
-        <h3>${d.title || ""}</h3>
-        <p>${d.desc || ""}</p>
+      <div class="news-item">
+        <div class="news-date">${date}</div>
+
+        ${d.img ? `<img src="${d.img}" class="news-img" onclick="openZoom('${d.img}')">` : ""}
+
+        <div class="news-text">
+          <h3>${d.title || ""}</h3>
+          <p>${d.desc || ""}</p>
+        </div>
+
+        <div class="clear"></div>
       </div>
-      <div class="clear"></div>
-    </div>`;
+    `;
   });
 
-  prevBtn.disabled = page === 1;
-  nextBtn.disabled = end >= allNews.length;
+  // ปุ่ม
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = end >= newsData.length;
 }
 
-prevBtn.onclick = ()=>{ if(page>1){page--;render();}};
-nextBtn.onclick = ()=>{ if(page*NEWS_PER_PAGE<allNews.length){page++;render();}};
+prevBtn.onclick = () => {
+  if(currentPage > 0){
+    currentPage--;
+    renderPage();
+  }
+};
+
+nextBtn.onclick = () => {
+  if((currentPage + 1) * NEWS_PER_PAGE < newsData.length){
+    currentPage++;
+    renderPage();
+  }
+};
 </script>
 <script>
 function openZoom(src){
@@ -146,6 +171,7 @@ function closeZoom(){
 </script>
 </body>
 </html>
+
 
 
 
