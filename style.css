@@ -17,7 +17,7 @@ body {
 }
 
 a:hover {
-  background-color: #ffff99;   /* สีเหลืองเลือก */
+  background-color: #1e00ff;  
   color: #000;
   text-decoration: underline;
 }
@@ -531,6 +531,7 @@ a:hover {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
