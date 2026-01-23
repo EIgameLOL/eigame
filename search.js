@@ -16,7 +16,7 @@ titleEl.innerText = `Search result for "${keywordRaw}"`;
 // ===== FIREBASE =====
 const db = firebase.database();
 
-// ใช้แค่ 2 หมวดจริง ๆ
+// ค้นหาเฉพาะหมวดที่มีจริง
 const SOURCES = [
   { path: "news",    title: "News",    fields: ["title", "desc"] },
   { path: "fanarts", title: "Fanarts", fields: ["credit", "desc"] }
@@ -26,9 +26,17 @@ let total = 0;
 let loaded = 0;
 const NEED = SOURCES.length;
 
-// ===== MATCH FUNCTION =====
-function match(text) {
-  return text && text.toLowerCase().includes(keyword);
+// ===== SMART MATCH =====
+function matchText(text) {
+  if (!text) return false;
+
+  const t = text.toLowerCase();
+
+  // แยกคำที่ผู้ใช้พิมพ์ เช่น "el game web"
+  const words = keyword.split(/\s+/);
+
+  // ถ้ามีคำใดคำหนึ่งตรง → ถือว่าผ่าน
+  return words.some(w => t.includes(w));
 }
 
 // ===== RENDER =====
@@ -71,17 +79,18 @@ SOURCES.forEach(src => {
   db.ref(src.path).once("value")
     .then(snapshot => {
       const arr = [];
+
       snapshot.forEach(c => {
         const d = c.val();
-        if (src.fields.some(f => match(d[f]))) {
+
+        // ถ้า field ใด field หนึ่งตรง → เก็บ
+        if (src.fields.some(f => matchText(d[f]))) {
           arr.push(d);
         }
       });
+
       renderSection(src.title, arr);
       done();
     })
-    .catch(err => {
-      console.warn("Firebase skip:", src.path);
-      done();
-    });
+    .catch(() => done());
 });
