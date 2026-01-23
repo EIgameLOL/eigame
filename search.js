@@ -1,5 +1,6 @@
 const params = new URLSearchParams(location.search);
-const keyword = (params.get("q") || "").toLowerCase();
+const keywordRaw = params.get("q") || "";
+const keyword = keywordRaw.toLowerCase();
 
 const titleEl = document.getElementById("searchTitle");
 const box = document.getElementById("searchResults");
@@ -9,105 +10,93 @@ if(!keyword){
   throw "";
 }
 
-let total = 0;
+titleEl.innerText = `Search result for "${keywordRaw}"`;
 
-titleEl.innerText = `Search result for "${keyword}"`;
+const db = firebase.database();
+let total = 0;
+let loaded = 0;
+const NEED = 4; // news, comics, games, fanarts
 
 function match(...txt){
   return txt.some(t => t && t.toLowerCase().includes(keyword));
 }
 
-function addSection(title, html){
-  if(!html) return;
-  box.innerHTML += `<h3 class="page-title">${title}</h3>` + html;
+function renderSection(title, items){
+  if(items.length === 0) return;
+
+  total += items.length;
+
+  let html = `
+    <div class="search-category">
+      <h3>${title}</h3>
+  `;
+
+  items.forEach(d=>{
+    html += `
+      <div class="search-item">
+        ${d.img ? `<img src="${d.img}" onclick="openZoom(this.src)">` : ""}
+        <div class="search-text">
+          <b>${d.title || d.credit || ""}</b><br>
+          ${d.desc || ""}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  box.innerHTML += html;
 }
 
-const db = firebase.database();
+function done(){
+  loaded++;
+  if(loaded === NEED){
+    titleEl.innerText = `"${keywordRaw}" (${total}) result found`;
+    if(total === 0){
+      box.innerHTML = "<p style='margin:10px'>No results found.</p>";
+    }
+  }
+}
 
 /* ===== NEWS ===== */
 db.ref("news").once("value", s=>{
-  let html="";
+  const arr=[];
   s.forEach(c=>{
     const d=c.val();
-    if(match(d.title,d.desc)){
-      total++;
-      html+=`
-      <div class="search-item">
-        ${d.img?`<img src="${d.img}">`:""}
-        <div class="search-text">
-          <b>${d.title||""}</b><br>
-          ${d.desc||""}
-        </div>
-      </div>`;
-    }
+    if(match(d.title,d.desc)) arr.push(d);
   });
-  addSection("News",html);
-  update();
-});
-
-/* ===== FANARTS ===== */
-db.ref("fanarts").once("value", s=>{
-  let html="";
-  s.forEach(c=>{
-    const d=c.val();
-    if(match(d.credit,d.desc)){
-      total++;
-      html+=`
-      <div class="search-item">
-        <img src="${d.img}">
-        <div class="search-text">
-          <b>${d.credit||""}</b><br>
-          ${d.desc||""}
-        </div>
-      </div>`;
-    }
-  });
-  addSection("Fanarts",html);
-  update();
+  renderSection("News",arr);
+  done();
 });
 
 /* ===== COMICS ===== */
 db.ref("comics").once("value", s=>{
-  let html="";
+  const arr=[];
   s.forEach(c=>{
     const d=c.val();
-    if(match(d.title,d.desc)){
-      total++;
-      html+=`
-      <div class="search-item">
-        <img src="${d.img}">
-        <div class="search-text">
-          <b>${d.title||""}</b><br>
-          ${d.desc||""}
-        </div>
-      </div>`;
-    }
+    if(match(d.title,d.desc)) arr.push(d);
   });
-  addSection("Comics",html);
-  update();
+  renderSection("Comics",arr);
+  done();
 });
 
 /* ===== GAMES ===== */
 db.ref("games").once("value", s=>{
-  let html="";
+  const arr=[];
   s.forEach(c=>{
     const d=c.val();
-    if(match(d.title,d.desc)){
-      total++;
-      html+=`
-      <div class="search-item">
-        <img src="${d.img}">
-        <div class="search-text">
-          <b>${d.title||""}</b><br>
-          ${d.desc||""}
-        </div>
-      </div>`;
-    }
+    if(match(d.title,d.desc)) arr.push(d);
   });
-  addSection("Games",html);
-  update();
+  renderSection("Games",arr);
+  done();
 });
 
-function update(){
-  titleEl.innerText = `"${keyword}" (${total}) result found`;
-}
+/* ===== FANARTS ===== */
+db.ref("fanarts").once("value", s=>{
+  const arr=[];
+  s.forEach(c=>{
+    const d=c.val();
+    if(match(d.credit,d.desc)) arr.push(d);
+  });
+  renderSection("Fanarts",arr);
+  done();
+});
