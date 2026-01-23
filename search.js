@@ -1,28 +1,34 @@
 const params = new URLSearchParams(location.search);
 const keywordRaw = params.get("q") || "";
-const keyword = keywordRaw.toLowerCase();
+const keyword = keywordRaw.trim().toLowerCase();
 
 const titleEl = document.getElementById("searchTitle");
 const box = document.getElementById("searchResults");
 
-if(!keyword){
+if (!keyword) {
   titleEl.innerText = "Please enter a search keyword.";
-  throw "";
+  box.innerHTML = "";
+  throw new Error("No keyword");
 }
 
 titleEl.innerText = `Search result for "${keywordRaw}"`;
 
 const db = firebase.database();
+
 let total = 0;
 let loaded = 0;
 const NEED = 4; // news, comics, games, fanarts
 
-function match(...txt){
-  return txt.some(t => t && t.toLowerCase().includes(keyword));
+/* ---------- helpers ---------- */
+
+function match(...txt) {
+  return txt.some(t =>
+    typeof t === "string" && t.toLowerCase().includes(keyword)
+  );
 }
 
-function renderSection(title, items){
-  if(items.length === 0) return;
+function renderSection(title, items) {
+  if (!items || items.length === 0) return;
 
   total += items.length;
 
@@ -31,7 +37,7 @@ function renderSection(title, items){
       <h3>${title}</h3>
   `;
 
-  items.forEach(d=>{
+  items.forEach(d => {
     html += `
       <div class="search-item">
         ${d.img ? `<img src="${d.img}" onclick="openZoom(this.src)">` : ""}
@@ -47,56 +53,57 @@ function renderSection(title, items){
   box.innerHTML += html;
 }
 
-function done(){
+function done() {
   loaded++;
-  if(loaded === NEED){
+  if (loaded === NEED) {
     titleEl.innerText = `"${keywordRaw}" (${total}) result found`;
-    if(total === 0){
-      box.innerHTML = "<p style='margin:10px'>No results found.</p>";
+    if (total === 0) {
+      box.innerHTML = `<p style="margin:10px">No results found.</p>`;
     }
   }
 }
 
-/* ===== NEWS ===== */
-db.ref("news").once("value", s=>{
-  const arr=[];
-  s.forEach(c=>{
-    const d=c.val();
-    if(match(d.title,d.desc)) arr.push(d);
-  });
-  renderSection("News",arr);
-  done();
-});
+/* ---------- fetch functions ---------- */
 
-/* ===== COMICS ===== */
-db.ref("comics").once("value", s=>{
-  const arr=[];
-  s.forEach(c=>{
-    const d=c.val();
-    if(match(d.title,d.desc)) arr.push(d);
-  });
-  renderSection("Comics",arr);
-  done();
-});
+function fetchCategory(refName, title, matcher) {
+  db.ref(refName).once("value")
+    .then(snap => {
+      const arr = [];
+      snap.forEach(c => {
+        const d = c.val();
+        if (matcher(d)) arr.push(d);
+      });
+      renderSection(title, arr);
+      done();
+    })
+    .catch(err => {
+      console.error(refName, err);
+      done(); // กันหน้าไม่ค้าง
+    });
+}
 
-/* ===== GAMES ===== */
-db.ref("games").once("value", s=>{
-  const arr=[];
-  s.forEach(c=>{
-    const d=c.val();
-    if(match(d.title,d.desc)) arr.push(d);
-  });
-  renderSection("Games",arr);
-  done();
-});
+/* ---------- run search ---------- */
 
-/* ===== FANARTS ===== */
-db.ref("fanarts").once("value", s=>{
-  const arr=[];
-  s.forEach(c=>{
-    const d=c.val();
-    if(match(d.credit,d.desc)) arr.push(d);
-  });
-  renderSection("Fanarts",arr);
-  done();
-});
+fetchCategory(
+  "news",
+  "News",
+  d => match(d.title, d.desc)
+);
+
+fetchCategory(
+  "comics",
+  "Comics",
+  d => match(d.title, d.desc)
+);
+
+fetchCategory(
+  "games",
+  "Games",
+  d => match(d.title, d.desc)
+);
+
+fetchCategory(
+  "fanarts",
+  "Fanarts",
+  d => match(d.credit, d.desc)
+);
