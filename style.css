@@ -16,6 +16,12 @@ body {
   background: #fff; 
 }
 
+a:hover {
+  background-color: #ffff99;   /* สีเหลืองเลือก */
+  color: #000;
+  text-decoration: underline;
+}
+
 /* กล่องกลาง */
 #wrapper {
   width: 1000px;
@@ -525,6 +531,7 @@ body {
   color:#000;
   text-decoration:underline;
 }
+
 
 
 
