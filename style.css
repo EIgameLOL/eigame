@@ -35,8 +35,8 @@ a:hover {
 
 /* header */
 #header {
-  height: 220px;
-  background: url("images/banner.jpg") center no-repeat;
+  height: 170px;
+  background: url("images/banner.png") center no-repeat;
   background-size: cover;
 }
 
@@ -71,7 +71,7 @@ a:hover {
 #img-menu img {
   display: block;       
   width: 200px;           
-  height: 66px;
+  height: 43px;
 }
 
 #searchBox {
@@ -528,3 +528,4 @@ a:hover {
 .search-text{
   font-size:14px;
 }
+
