@@ -1,209 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>EIgameLOL webpage - Welcome </title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="icon" href="icon.ico" type="image/x-icon">
-</head>
-
-<style>
-.thumb {
-  width: 48%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-#zoom {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-#zoom img {
-  max-width: 90%;
-  max-height: 90%;
-}
-</style>
-</head>
-
-<body>
-
-<div id="wrapper">
-
-  <!-- HEADER -->
-  <div id="header">
-    <img src="ui/banner.png" width="1001" height="170" alt="">
-  </div>
-
-  <!-- MENU + SEARCH -->
-  <div id="menu">
-    <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a>
-
-    <form id="searchBox" action="search.html" method="get">
-      <input type="text" name="q" placeholder="Search news or fanarts...." required>
-      <button type="submit">Go</button>
-    </form>
-  </div>
-
-  <!-- IMAGE MENU -->
-  <div id="img-menu">
-    <a href="news.html"><img src="ui/news.png"></a>
-    <a href="comics.html"><img src="ui/comics.png"></a>
-    <a href="games.html"><img src="ui/games.png"></a>
-    <a href="fanarts.html"><img src="ui/fanarts.png"></a>
-    <a href="#"><img src="ui/gameart.png"></a>
-  </div>
-
-  <div id="main">
-
-    <div class="left">
-
-      <div class="window">
-        <h3>Latest</h3>
-        <p><img src="images/comingsoon.png" width="100%"  alt=""/>New post or events is coming soon lol!</p>
-      </div>
-
-      <div class="window">
-        <h3>Fanarts</h3>
-        <div id="fanartsBox"></div>
-        <p class="more"><a href="fanarts.html">More details...</a></p>
-      </div>
-      
-    </div>
-
-    <div class="center">
-      <div class="window">
-        <h3>News</h3>
-        <div id="newsBox">Loading...</div>
-        <p class="more"><a href="news.html">More details...</a></p>
-      </div>
-    </div>
-
-    <div class="right">
-      <div class="window">
-        <h3>Socials</h3>
-        <a href="https://www.youtube.com/@EIgameLOL"><img src="icon/yt.png"></a><br>
-        <a href="https://www.tiktok.com/@eigamelol"><img src="icon/tk.png"></a><br>
-        <a href="https://x.com/EIgameLOL"><img src="icon/tw.png"></a><br>
-        <a href="https://discord.gg/uTy97rYeTk"><img src="icon/dc.png"></a><br>
-        <a href="https://eigamelol.newgrounds.com/"><img src="icon/ng.png"></a><br>
-        <a href="#"><img src="icon/sf.png"></a>
-        <a href="https://www.instagram.com/eigamelol/"><img src="icon/ig.png"></a>
-      </div>
-
-      <div class="window">
-        <img src="images/ad-vertical.png" width="100%">
-      </div>
-    </div>
-
-    <div class="clear"></div>
-  </div>
-
-  <div id="footer">
-    | <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a> |<br>
-    ©2026 ElgameLOL
-  </div>
-
-</div>
-
-<div id="zoom" onclick="this.style.display='none'">
-  <img id="zoomImg">
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>wip</title>
+<!-- write your code here -->
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 <script>
-firebase.initializeApp({
-  apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
-  authDomain: "eigame-fanarts.firebaseapp.com",
-  databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
-  projectId: "eigame-fanarts"
-});
-
-firebase.database().ref("fanarts")
-.limitToLast(4)
-.on("value", function(snap) {
-  var box = document.getElementById("fanartsBox");
-  box.innerHTML = "";
-
-  snap.forEach(function(s) {
-    var img = document.createElement("img");
-    img.src = s.val().img;
-    img.className = "thumb";
-
-    img.onclick = function() {
-      zoomImg.src = img.src;
-      zoom.style.display = "flex";
-    };
-
-    box.appendChild(img);
-  });
-});
-
-firebase.database().ref("news")
-.orderByChild("time")
-.limitToLast(5)
-.on("value", function(snapshot) {
-
-  var box = document.getElementById("newsBox");
-  box.innerHTML = "";
-
-  var items = [];
-
-  snapshot.forEach(function(child){
-    items.push(child.val());
-  });
-
-  items.sort((a,b)=>b.time-a.time);
-
-  items.forEach(function(d){
-    var date = new Date(d.time).toLocaleDateString();
-
-    box.innerHTML +=
-      '<div class="index-news-item">' +
-        '<div class="index-news-date">' + date + '</div>' +
-        '<div class="index-news-body">' +
-          (d.img
-            ? '<img src="' + d.img + '" class="index-news-img" onclick="openZoom(this.src)">'
-            : ''
-          ) +
-          '<div class="index-news-text">' +
-            '<div class="index-news-title">' + (d.title || '') + '</div>' +
-            '<div class="index-news-desc">' + (d.desc || '') + '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-  });
-
-});
+(function (cjs, an) {
+var p; // shortcut to reference prototypes
+var lib={};var ss={};var img={};
+lib.ssMetadata = [
+		{name:"wip_atlas_1", frames: [[0,0,1356,895],[0,897,1356,895]]},
+		{name:"wip_atlas_2", frames: [[0,0,1354,895]]}
+];
+(lib.AnMovieClip = function(){
+	this.actionFrames = [];
+	this.ignorePause = false;
+	this.gotoAndPlay = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndPlay.call(this,positionOrLabel);
+	}
+	this.play = function(){
+		cjs.MovieClip.prototype.play.call(this);
+	}
+	this.gotoAndStop = function(positionOrLabel){
+		cjs.MovieClip.prototype.gotoAndStop.call(this,positionOrLabel);
+	}
+	this.stop = function(){
+		cjs.MovieClip.prototype.stop.call(this);
+	}
+}).prototype = p = new cjs.MovieClip();
+// symbols:
+(lib.CachedBmp_3 = function() {
+	this.initialize(ss["wip_atlas_1"]);
+	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+(lib.CachedBmp_2 = function() {
+	this.initialize(ss["wip_atlas_2"]);
+	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+(lib.CachedBmp_1 = function() {
+	this.initialize(ss["wip_atlas_1"]);
+	this.gotoAndStop(1);
+}).prototype = p = new cjs.Sprite();
+// stage content:
+(lib.wip = function(mode,startPosition,loop,reversed) {
+if (loop == null) { loop = true; }
+if (reversed == null) { reversed = false; }
+	var props = new Object();
+	props.mode = mode;
+	props.startPosition = startPosition;
+	props.labels = {};
+	props.loop = loop;
+	props.reversed = reversed;
+	cjs.MovieClip.apply(this,[props]);
+	// Layer_1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#000000").s().p("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");
+	this.shape.setTransform(395.369,82.775);
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(3));
+	// Layer_2
+	this.instance = new lib.CachedBmp_1();
+	this.instance.setTransform(52,142.1,0.5,0.5);
+	this.instance_1 = new lib.CachedBmp_2();
+	this.instance_1.setTransform(52.6,142.1,0.5,0.5);
+	this.instance_2 = new lib.CachedBmp_3();
+	this.instance_2.setTransform(52.6,142.1,0.5,0.5);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[{t:this.instance_1}]},1).to({state:[{t:this.instance_2}]},1).wait(1));
+	this._renderFirstFrame();
+}).prototype = p = new lib.AnMovieClip();
+p.nominalBounds = new cjs.Rectangle(452,334.4,278.6,255.20000000000005);
+// library properties:
+lib.properties = {
+	id: '506F6804CCEFD247BCA3062FFF7464C0',
+	width: 800,
+	height: 600,
+	fps: 25,
+	color: "#FFFFFF",
+	opacity: 1.00,
+	manifest: [
+		{src:"images/wip_atlas_1.png?1769705442485", id:"wip_atlas_1"},
+		{src:"images/wip_atlas_2.png?1769705442485", id:"wip_atlas_2"}
+	],
+	preloads: []
+};
+// bootstrap callback support:
+(lib.Stage = function(canvas) {
+	createjs.Stage.call(this, canvas);
+}).prototype = p = new createjs.Stage();
+p.setAutoPlay = function(autoPlay) {
+	this.tickEnabled = autoPlay;
+}
+p.play = function() { this.tickEnabled = true; this.getChildAt(0).gotoAndPlay(this.getTimelinePosition()) }
+p.stop = function(ms) { if(ms) this.seek(ms); this.tickEnabled = false; }
+p.seek = function(ms) { this.tickEnabled = true; this.getChildAt(0).gotoAndStop(lib.properties.fps * ms / 1000); }
+p.getDuration = function() { return this.getChildAt(0).totalFrames / lib.properties.fps * 1000; }
+p.getTimelinePosition = function() { return this.getChildAt(0).currentFrame / lib.properties.fps * 1000; }
+an.bootcompsLoaded = an.bootcompsLoaded || [];
+if(!an.bootstrapListeners) {
+	an.bootstrapListeners=[];
+}
+an.bootstrapCallback=function(fnCallback) {
+	an.bootstrapListeners.push(fnCallback);
+	if(an.bootcompsLoaded.length > 0) {
+		for(var i=0; i<an.bootcompsLoaded.length; ++i) {
+			fnCallback(an.bootcompsLoaded[i]);
+		}
+	}
+};
+an.compositions = an.compositions || {};
+an.compositions['506F6804CCEFD247BCA3062FFF7464C0'] = {
+	getStage: function() { return exportRoot.stage; },
+	getLibrary: function() { return lib; },
+	getSpriteSheet: function() { return ss; },
+	getImages: function() { return img; }
+};
+an.compositionLoaded = function(id) {
+	an.bootcompsLoaded.push(id);
+	for(var j=0; j<an.bootstrapListeners.length; j++) {
+		an.bootstrapListeners[j](id);
+	}
+}
+an.getComposition = function(id) {
+	return an.compositions[id];
+}
+an.makeResponsive = function(isResp, respDim, isScale, scaleType, domContainers) {		
+	var lastW, lastH, lastS=1;		
+	window.addEventListener('resize', resizeCanvas);		
+	resizeCanvas();		
+	function resizeCanvas() {			
+		var w = lib.properties.width, h = lib.properties.height;			
+		var iw = window.innerWidth, ih=window.innerHeight;			
+		var pRatio = window.devicePixelRatio || 1, xRatio=iw/w, yRatio=ih/h, sRatio=1;			
+		if(isResp) {                
+			if((respDim=='width'&&lastW==iw) || (respDim=='height'&&lastH==ih)) {                    
+				sRatio = lastS;                
+			}				
+			else if(!isScale) {					
+				if(iw<w || ih<h)						
+					sRatio = Math.min(xRatio, yRatio);				
+			}				
+			else if(scaleType==1) {					
+				sRatio = Math.min(xRatio, yRatio);				
+			}				
+			else if(scaleType==2) {					
+				sRatio = Math.max(xRatio, yRatio);				
+			}			
+		}
+		domContainers[0].width = w * pRatio * sRatio;			
+		domContainers[0].height = h * pRatio * sRatio;
+		domContainers.forEach(function(container) {				
+			container.style.width = w * sRatio + 'px';				
+			container.style.height = h * sRatio + 'px';			
+		});
+		stage.scaleX = pRatio*sRatio;			
+		stage.scaleY = pRatio*sRatio;
+		lastW = iw; lastH = ih; lastS = sRatio;            
+		stage.tickOnUpdate = false;            
+		stage.update();            
+		stage.tickOnUpdate = true;		
+	}
+}
+an.handleSoundStreamOnTick = function(event) {
+	if(!event.paused){
+		var stageChild = stage.getChildAt(0);
+		if(!stageChild.paused || stageChild.ignorePause){
+			stageChild.syncStreamSounds();
+		}
+	}
+}
+an.handleFilterCache = function(event) {
+	if(!event.paused){
+		var target = event.target;
+		if(target){
+			if(target.filterCacheList){
+				for(var index = 0; index < target.filterCacheList.length ; index++){
+					var cacheInst = target.filterCacheList[index];
+					if((cacheInst.startFrame <= target.currentFrame) && (target.currentFrame <= cacheInst.endFrame)){
+						cacheInst.instance.cache(cacheInst.x, cacheInst.y, cacheInst.w, cacheInst.h);
+					}
+				}
+			}
+		}
+	}
+}
+})(createjs = createjs||{}, AdobeAn = AdobeAn||{});
+var createjs, AdobeAn;
 </script>
 <script>
-function openZoom(src){
-  var zoom = document.getElementById("zoom");
-  var zoomImg = document.getElementById("zoomImg");
-  zoomImg.src = src;
-  zoom.style.display = "flex";
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("506F6804CCEFD247BCA3062FFF7464C0");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.wip();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(false,'both',false,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
 }
 </script>
+<!-- write your code here -->
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:800px; height:600px">
+		<canvas id="canvas" width="800" height="600" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:800px; height:600px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
 </body>
 </html>
-
-
-
