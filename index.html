@@ -126,21 +126,34 @@
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, get, child, runTransaction } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+import { getDatabase, ref, get, child, push, set, runTransaction }
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "YOUR_DB_URL",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
+  authDomain: "eigame-fanarts.firebaseapp.com",
+  databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
+  projectId: "eigame-fanarts",
+  storageBucket: "eigame-fanarts.firebasestorage.app",
+  messagingSenderId: "88217495036",
+  appId: "1:88217495036:web:f65db20464cc0528a2be79",
+  measurementId: "G-Q8NKHEYBB7"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+/* ทำให้เรียกใช้ได้ทุกหน้า */
+window.db = db;
+window.ref = ref;
+window.get = get;
+window.child = child;
+window.push = push;
+window.set = set;
+window.runTransaction = runTransaction;
+
+</script>
+<script>
 /* ================= LOAD NEWS ================= */
 get(child(ref(db), "news")).then(snapshot=>{
   if(snapshot.exists()){
@@ -265,5 +278,6 @@ function openModal(img,credit,desc){
 
 </body>
 </html>
+
 
 
