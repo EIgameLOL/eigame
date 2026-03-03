@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EIgameLOL - Game really cooking GG</title>
+<meta charset="UTF-8">
+<title>EIgameLOL - Game really cooking GG</title>
 
-  <link rel="stylesheet" href="style.css">
-
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="icon" href="icon.ico" type="image/x-icon">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="icon" href="icon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -43,55 +42,53 @@
 </header>
 
 <!-- ================= MAIN ================= -->
-<div class="container content">
+<div class="container main-layout">
 
-<div class="grid-2">
+  <!-- LEFT -->
+  <div class="left">
 
-<!-- ===== LEFT (EVENT) ===== -->
-<div>
-  <div class="event-box">
-    <a href="#">
-      <img src="images/81_20260222160106.png">
-    </a>
+    <div class="grid-2">
 
-    <div class="event-desc">
-      <p id="eventText">
-        Events is also coming soon if i have a new events i will post here!
-        Muhahahaha (Click pictures here to get smth.)
-      </p>
-      <a href="#" onclick="toggleEvent()">More details >></a>
+      <div class="event-box">
+        <img src="images/81_20260222160106.png">
+        <div class="event-desc">
+          <p id="eventText">
+            Events is also coming soon if i have a new events i will post here!
+            Muhahahaha (Click pictures here to get smth.)
+          </p>
+        </div>
+      </div>
+
+      <div class="calendar">
+        <h3 id="calendarTitle"></h3>
+        <table id="calendarTable"></table>
+      </div>
+
     </div>
+
+    <h2 class="section-title">NEWS</h2>
+    <div id="newsList"></div>
+    <a href="news.html" class="more-link">More details >></a>
+
   </div>
-</div>
 
-<!-- ===== RIGHT (CALENDAR) ===== -->
-<div class="calendar">
-  <h3 id="calendarTitle"></h3>
-  <table id="calendarTable"></table>
-</div>
+  <!-- RIGHT SIDEBAR -->
+  <div class="right">
 
-</div>
+    <h2 class="section-title">GALLERY</h2>
+    <div class="gallery-grid" id="galleryList"></div>
+    <a href="gallery.html" class="more-link">More details >></a>
 
-<!-- ===== NEWS SECTION ===== -->
-<h2 class="section-title">NEWS</h2>
-<div id="newsList"></div>
-<a href="news.html" style="color:yellow;">More details >></a>
+    <div class="shop-box">
+      <img src="images/84_20260226121237.png">
+    </div>
 
-<!-- ===== GALLERY SECTION ===== -->
-<h2 class="section-title">GALLERY</h2>
-<div class="gallery-grid" id="galleryList"></div>
-<a href="gallery.html" style="color:yellow;">More details >></a>
+    <div class="counter">
+      You are visitor number
+      <span id="visitorCount">000000</span>
+    </div>
 
-<!-- ===== SHOP ===== -->
-<div class="shop">
-  <a href="#"><img src="images/84_20260226121237.png"></a>
-</div>
-
-<!-- ===== HIT COUNTER ===== -->
-<div class="counter">
-  You are visitor number
-  <span id="visitorCount">000000</span>
-</div>
+  </div>
 
 </div>
 
@@ -102,25 +99,10 @@
       <a href="https://www.youtube.com/@EIgameLOL"><img src="icon/yt.png"></a>
       <a href="https://x.com/eigamelol"><img src="icon/tw.png"></a>
       <a href="https://www.tiktok.com/@eigamelol"><img src="icon/tk.png"></a>
-      <a href="#"><img src="icon/sf.png"></a>
       <a href="https://discord.gg/uTy97rYeTk"><img src="icon/dc.png"></a>
       <a href="https://eigamelol.newgrounds.com/"><img src="icon/ng.png"></a>
       <a href="https://www.instagram.com/eigamelol"><img src="icon/ig.png"></a>
     </div>
-
-    <div class="search-box">
-      <input type="text" id="searchInput">
-      <button onclick="goSearch()">Go</button>
-    </div>
-  </div>
-
-  <div class="footer-links">
-    <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="info.html">Info</a>
-    <br>
-    ©2026 EIgameLOL
   </div>
 </footer>
 
@@ -128,106 +110,82 @@
 
 <!-- ================= FIREBASE ================= -->
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getDatabase, ref, get, child, push, set, runTransaction }
+import { getDatabase, ref, get, child, runTransaction }
 from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
   authDomain: "eigame-fanarts.firebaseapp.com",
   databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
-  projectId: "eigame-fanarts",
-  storageBucket: "eigame-fanarts.firebasestorage.app",
-  messagingSenderId: "88217495036",
-  appId: "1:88217495036:web:f65db20464cc0528a2be79",
-  measurementId: "G-Q8NKHEYBB7"
+  projectId: "eigame-fanarts"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* ทำให้เรียกใช้ได้ทุกหน้า */
-window.db = db;
-window.ref = ref;
-window.get = get;
-window.child = child;
-window.push = push;
-window.set = set;
-window.runTransaction = runTransaction;
-
-/* ================= LOAD NEWS ================= */
+/* LOAD NEWS */
 get(child(ref(db), "news")).then(snapshot=>{
   if(snapshot.exists()){
-    let data = Object.entries(snapshot.val())
-      .map(([key,val])=>({...val,id:key}))
-      .sort((a,b)=> new Date(b.date)-new Date(a.date))
-      .slice(0,6);
-
-    data.forEach(n=>{
-      document.getElementById("newsList").innerHTML += `
-        <div class="news-item">
-          <img src="${n.image}">
-          <div>
-            <h3>${n.title}</h3>
-            <p>${n.description.substring(0,100)}...</p>
-            <a href="newspreview.html?id=${n.id}">More details >></a>
-          </div>
+    Object.entries(snapshot.val())
+    .slice(0,6)
+    .forEach(([id,n])=>{
+      document.getElementById("newsList").innerHTML+=`
+      <div class="news-item">
+        <img src="${n.image}">
+        <div>
+          <h3>${n.title}</h3>
+          <p>${n.description?.substring(0,100) || ""}...</p>
         </div>
-      `;
+      </div>`;
     });
   }
 });
 
-/* ================= LOAD GALLERY ================= */
+/* LOAD GALLERY */
 get(child(ref(db), "gallery")).then(snapshot=>{
   if(snapshot.exists()){
-    let data = Object.entries(snapshot.val())
-      .map(([key,val])=>({...val,id:key}))
-      .sort((a,b)=> new Date(b.date)-new Date(a.date))
-      .slice(0,6);
-
-    data.forEach(g=>{
-      document.getElementById("galleryList").innerHTML += `
-        <div onclick="openModal('${g.image}','${g.credit}','${g.description}')">
-          <img src="${g.image}">
-          <p style="color:yellow;">${g.credit}</p>
-        </div>
-      `;
+    Object.entries(snapshot.val())
+    .slice(0,6)
+    .forEach(([id,g])=>{
+      document.getElementById("galleryList").innerHTML+=`
+      <div>
+        <img src="${g.image}">
+        <p>${g.credit || ""}</p>
+      </div>`;
     });
   }
 });
 
-/* ================= HIT COUNTER ================= */
-const counterRef = ref(db, "counter");
-runTransaction(counterRef, (current)=>{
-  return (current || 0) + 1;
+/* HIT COUNTER */
+runTransaction(ref(db,"counter"),current=>{
+  return (current||0)+1;
 }).then(result=>{
-  document.getElementById("visitorCount").innerText =
-    String(result.snapshot.val()).padStart(6,'0');
+  document.getElementById("visitorCount").innerText=
+  String(result.snapshot.val()).padStart(6,'0');
 });
-
 </script>
 
-<!-- ================= CALENDAR SCRIPT ================= -->
+<!-- CALENDAR -->
 <script>
 function generateCalendar(){
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const today = now.getDate();
+  const now=new Date();
+  const year=now.getFullYear();
+  const month=now.getMonth();
+  const today=now.getDate();
 
-  document.getElementById("calendarTitle").innerText =
-    now.toLocaleString('default',{month:'long'}) + " " + year;
+  document.getElementById("calendarTitle").innerText=
+  now.toLocaleString('default',{month:'long'})+" "+year;
 
-  const firstDay = new Date(year,month,1).getDay();
-  const daysInMonth = new Date(year,month+1,0).getDate();
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
 
-  let table = "<tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr><tr>";
+  let table="<tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr><tr>";
+
   for(let i=0;i<firstDay;i++) table+="<td></td>";
 
-  for(let d=1; d<=daysInMonth; d++){
-    let cls = d===today ? "today":"";
+  for(let d=1;d<=daysInMonth;d++){
+    let cls=d===today?"today":"";
     table+=`<td class="${cls}">${d}</td>`;
     if((d+firstDay)%7===0) table+="</tr><tr>";
   }
@@ -238,53 +196,5 @@ function generateCalendar(){
 generateCalendar();
 </script>
 
-<!-- ================= EVENT TOGGLE ================= -->
-<script>
-function toggleEvent(){
-  document.querySelector(".event-desc")
-          .classList.toggle("expand");
-}
-</script>
-
-<!-- ================= SEARCH ================= -->
-<script>
-function goSearch(){
-  const q=document.getElementById("searchInput").value;
-  window.location.href="search.html?q="+encodeURIComponent(q);
-}
-</script>
-
-<!-- ================= MODAL ================= -->
-<script>
-function openModal(img,credit,desc){
-  const modal=document.createElement("div");
-  modal.style.position="fixed";
-  modal.style.top=0;
-  modal.style.left=0;
-  modal.style.width="100%";
-  modal.style.height="100%";
-  modal.style.background="rgba(0,0,0,0.9)";
-  modal.style.display="flex";
-  modal.style.flexDirection="column";
-  modal.style.alignItems="center";
-  modal.style.justifyContent="center";
-  modal.innerHTML=`
-    <img src="${img}" style="max-width:80%;max-height:70%;">
-    <p style="color:yellow;">${credit}</p>
-    <p style="color:white;">${desc}</p>
-  `;
-  modal.onclick=()=>modal.remove();
-  document.body.appendChild(modal);
-}
-</script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
