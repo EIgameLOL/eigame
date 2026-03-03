@@ -1,45 +1,37 @@
-/* ================= GLOBAL ================= */
+@font-face {
+  font-family:'GameShape';
+  src:url('./GameShape-Regular.woff2') format('woff2'),
+      url('./GameShape-Regular.woff') format('woff');
+}
 
-html,body{
+body{
   margin:0;
-  padding:0;
   background:black;
   color:white;
-  font-family:"MS Sans Serif", Arial, sans-serif;
-  font-size:18px;
-  line-height:1.6;
-  height:100%;
+  font-family:Arial;
 }
 
 .wrapper{
-  min-height:100%;
+  min-height:100vh;
   display:flex;
   flex-direction:column;
 }
 
-.content{
-  flex:1;
-}
-
-header,
-.container,
-.footer-inner{
-  max-width:1100px;
-  width:95%;
+/* HEADER */
+header{
+  width:1100px;
   margin:auto;
+  padding:20px 0;
 }
-
-/* ================= HEADER ================= */
 
 .header-inner{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  padding:20px 0 10px 0;
 }
 
 .logo img{
-  height:75px;
+  height:70px;
 }
 
 .nav-right{
@@ -50,7 +42,6 @@ header,
   margin-left:20px;
   color:#aaa;
   text-decoration:none;
-  font-size:18px;
 }
 
 .menu-top a:hover{
@@ -60,174 +51,136 @@ header,
 .menu-main{
   margin-top:10px;
   font-family:'GameShape';
-  font-size:36px;
+  font-size:30px;
 }
 
 .menu-main a{
   margin-left:25px;
-  text-decoration:none;
   color:white;
+  text-decoration:none;
 }
 
 .menu-main a:hover{
   color:yellow;
 }
 
-/* ================= LAYOUT ================= */
+/* MAIN LAYOUT */
+.container{
+  width:1100px;
+  margin:auto;
+}
 
-.grid-2{
+.main-layout{
   display:grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns:2fr 1fr;
   gap:40px;
 }
 
-/* ================= SECTION TITLE ================= */
+.grid-2{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:30px;
+}
 
 .section-title{
   font-family:'GameShape';
-  font-size:48px;
+  font-size:36px;
   color:yellow;
-  margin:50px 0 20px 0;
+  margin:40px 0 20px 0;
 }
 
-/* ================= EVENT ================= */
-
+/* EVENT */
 .event-box img{
   width:100%;
 }
 
 .event-desc{
   background:#0a23ff;
-  padding:14px;
+  padding:10px;
 }
 
-.event-desc p{
-  display:-webkit-box;
-  -webkit-line-clamp:5;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  margin:0;
-}
-
-.event-desc.expand p{
-  -webkit-line-clamp:unset;
-}
-
-.event-desc a{
-  display:block;
-  margin-top:8px;
-  color:yellow;
-  text-decoration:none;
-}
-
-/* ================= CALENDAR ================= */
-
+/* CALENDAR */
 .calendar{
-  border:2px solid #555;
-  padding:12px;
+  border:2px solid #444;
+  padding:10px;
   text-align:center;
 }
 
-.calendar h3{
-  font-family:'GameShape';
-  font-size:24px;
+.calendar table{
+  width:100%;
+  border-collapse:collapse;
 }
 
-.calendar th,
-.calendar td{
+.calendar td,.calendar th{
   border:1px solid #444;
-  padding:8px;
+  padding:5px;
 }
 
-.calendar .today{
+.today{
   background:#0a23ff;
-  font-weight:bold;
 }
 
-/* ================= NEWS ================= */
-
+/* NEWS */
 .news-item{
   display:flex;
-  margin-bottom:30px;
+  margin-bottom:20px;
 }
 
 .news-item img{
-  width:100px;
-  height:100px;
+  width:80px;
+  height:80px;
   object-fit:cover;
-  margin-right:20px;
+  margin-right:10px;
 }
 
 .news-item h3{
+  margin:0;
   color:yellow;
 }
 
-.news-item a{
-  color:yellow;
-}
-
-/* ================= GALLERY ================= */
-
+/* GALLERY */
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+  grid-template-columns:1fr;
+  gap:15px;
 }
 
 .gallery-grid img{
   width:100%;
-  cursor:pointer;
-  transition:.25s;
 }
 
-.gallery-grid img:hover{
-  transform:scale(1.05);
+/* SHOP */
+.shop-box img{
+  width:100%;
+  margin-top:30px;
 }
 
-.gallery-grid p{
-  text-align:center;
-  color:yellow;
-}
-
-/* ================= SHOP ================= */
-
-.shop img{
-  width:65%;
-  display:block;
-  margin:50px auto;
-}
-
-/* ================= COUNTER ================= */
-
+/* COUNTER */
 .counter{
-  text-align:center;
-  margin-top:20px;
+  margin-top:30px;
   font-family:'GameShape';
-  font-size:24px;
   color:yellow;
 }
 
-/* ================= FOOTER ================= */
-
+/* FOOTER */
 footer{
-  border-top:1px solid #555;
-  margin-top:60px;
+  margin-top:50px;
   padding:20px 0;
+  border-top:1px solid #444;
 }
 
 .footer-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  width:1100px;
+  margin:auto;
+  text-align:center;
 }
 
 .social img{
   height:35px;
-  margin-right:10px;
+  margin:5px;
 }
 
-.footer-links{
-  text-align:center;
-  margin-top:15px;
-  font-size:14px;
+.more-link{
+  color:yellow;
+  text-decoration:none;
 }
