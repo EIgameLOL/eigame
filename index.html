@@ -156,8 +156,6 @@ window.push = push;
 window.set = set;
 window.runTransaction = runTransaction;
 
-</script>
-<script>
 /* ================= LOAD NEWS ================= */
 get(child(ref(db), "news")).then(snapshot=>{
   if(snapshot.exists()){
@@ -282,6 +280,7 @@ function openModal(img,credit,desc){
 
 </body>
 </html>
+
 
 
 
