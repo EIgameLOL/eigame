@@ -243,8 +243,8 @@ generateCalendar();
 <!-- ================= EVENT TOGGLE ================= -->
 <script>
 function toggleEvent(){
-  const el=document.getElementById("eventText");
-  el.style.display = el.style.display==="none"?"block":"none";
+  document.querySelector(".event-desc")
+          .classList.toggle("expand");
 }
 </script>
 
@@ -282,6 +282,7 @@ function openModal(img,credit,desc){
 
 </body>
 </html>
+
 
 
 
