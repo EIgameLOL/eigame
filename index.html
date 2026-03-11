@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta content="en-us" http-equiv="Content-Language">
+<meta charset="UTF-8">
+<title>EIgameLOL - Game is cooking GG</title>
+
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="icon" href="icon.ico" type="image/x-icon">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyxxxxx",
+  authDomain: "eigamelol.firebaseapp.com",
+  databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com/",
+  projectId: "eigamelol"
+});
+</script>
+</head>
+
+<style type="text/css">
+@font-face {
+  font-family:'GameShape';
+  src:url('./GameShape-Regular.woff2') format('woff2'),
+      url('./GameShape-Regular.woff') format('woff');
+}
+body {
+	font-family: "MS Sans Serif";
+	font-size: small;
+	font-weight: normal;
+	color: #FFFFFF;
+	background-color: #000000;
+	background-image: url('ui/star.png');
+	background-repeat: repeat;
+}
+a {
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  color: yellow; 
+}
+h1 {
+	font-family: GameShape;
+	font-size: xx-large;
+	color: #FFFFFF;
+}
+.auto-style1 {
+	text-align: center;
+}
+.auto-style2 {
+	color: #FFD200;
+}
+.auto-style3 {
+	text-align: center;
+	font-size: xx-large;
+}
+.auto-style4 {
+	text-align: center;
+	font-size: medium;
+}
+.newStyle1 {
+}
+.events-box{
+width:850px;
+margin:20px auto;
+background:#0A23FF;
+color:white;
+padding:2px;
+display:flex;
+align-items:center;
+border:2px solid #0018A8;
+}
+.events-img{
+width:180px;
+height:90px;
+object-fit:cover;
+margin-right:10px;
+}
+.events-text{
+font-size:medium;
+line-height:1.3;
+}
+.news-header{
+background:#848484;
+color:black;
+font-family:GameShape;
+font-size:28px;
+padding:5px 10px;
+width:120px;
+margin-bottom:10px;
+}
+.news-box{
+width:850px;
+background:#CFCFCF;
+color:black;
+margin:20px auto;
+padding:10px;
+font-family:Arial;
+}
+.news-item{
+display:flex;
+margin-bottom:20px;
+align-items:flex-start;
+}
+.news-imgbox{
+position:relative;
+width:80px;
+height:80px;
+margin-right:15px;
+}
+.news-img{
+width:80px;
+height:80px;
+object-fit:cover;
+border:2px solid black;
+}
+.news-date{
+position:absolute;
+top:-10px;
+left:-10px;
+background:white;
+color:black;
+font-size:11px;
+padding:2px 4px;
+border:1px solid black;
+}
+.news-title{
+font-weight:bold;
+font-size:18px;
+}
+.news-text{
+font-size:medium;
+max-width:650px;
+}
+.auto-style6 {
+	background: #00FF00;
+	color: black;
+	font-family: GameShape;
+	font-size: xx-large;
+	padding: 5px 10px;
+	margin-bottom: 10px;
+}
+.auto-style7 {
+	font-size: medium;
+}
+#zoomBox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+#zoomImg{
+max-width:90%;
+max-height:90%;
+border:4px solid white;
+}
+</style>
+
+<body>
+<h1 class="auto-style3">Welcome to <span class="auto-style2">EIgameLOL's</span> 
+official page!</h1>
+<p class="auto-style4">What are you going to?:</p>
+
+
+
+<p class="auto-style1">
+<map id="ImgMap0" class="auto-style1" name="ImgMap0">
+	<area alt="" coords="404, 74, 42" href="https://discord.gg/uTy97rYeTk" shape="circle">
+	<area alt="" coords="167, 100, 42" href="galley.html" shape="circle">
+	<area alt="" coords="399, 348, 41" href="socials.html" shape="circle">
+	<area alt="" coords="647, 299, 32" href="stuffs.html" shape="circle">
+	<area alt="" coords="631, 108, 46" href="store.html" shape="circle">
+	<area alt="" coords="171, 315, 46" href="https://www.youtube.com/@EIgameLOL" shape="circle">
+</map>
+<img alt="" src="ui/space.png" usemap="#ImgMap0"></p>
+
+<div class="events-box">
+
+<a href="events.html">
+<img src="images/events.png" class="events-img">
+</a>
+
+<div class="events-text">
+
+<b>3/11/2026</b><br>
+
+Events is also coming soon! If I have a new event I will post here. Muhahahaha! (Click the picture to see 
+	somethings.)
+
+</div>
+
+</div>
+
+<div class="news-box">
+
+<div class="auto-style6">News</div>
+
+<div id="news-list">
+Loading news...
+</div>
+
+<div class="news-more">
+<a href="news.html">More News Archives >></a>
+</div>
+
+</div>
+
+<div class="auto-style1">
+
+	<div class="auto-style1">
+
+		<span class="auto-style7">| <a href="about.html">About Us</a> |
+<a href="privacy.html">Privacy Policy</a> |
+<a href="info.html">Info</a> |
+<a href="contact.html">Contact Us</a> |
+
+</div>
+
+<p>Copyright ©2026 ElgameLOL</p>
+
+<script>
+
+const list = document.getElementById("news-list");
+
+firebase.database().ref("news")
+.orderByChild("time")
+.limitToLast(3)
+.once("value")
+.then(snapshot => {
+
+let news = [];
+
+snapshot.forEach(child => {
+
+let d = child.val();
+d._key = child.key;
+news.push(d);
+
+});
+
+news.sort((a,b)=> b.time - a.time);
+
+renderNews(news);
+
+});
+
+
+function renderNews(news){
+
+list.innerHTML = "";
+
+news.forEach(d => {
+
+let date = new Date(d.time).toLocaleDateString();
+
+list.innerHTML += `
+
+<div class="news-item">
+
+<div class="news-imgbox">
+
+<div class="news-date">${date}</div>
+
+${d.img ? `<img src="${d.img}" class="news-img" onclick="openZoom('${d.img}')">` : ""}
+
+</div>
+
+<div class="news-text">
+
+<div class="news-title">${d.title || ""}</div>
+
+<p>${d.desc || ""}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+</script>
+<script>
+
+function openZoom(src){
+
+const box = document.getElementById("zoomBox");
+const img = document.getElementById("zoomImg");
+
+img.src = src;
+box.style.display = "flex";
+
+}
+
+function closeZoom(){
+
+document.getElementById("zoomBox").style.display = "none";
+
+}
+
+</script>
+
+<div id="zoomBox" onclick="closeZoom()">
+
+<img id="zoomImg">
+
+</div>
+
+</body>
+</html>
+
