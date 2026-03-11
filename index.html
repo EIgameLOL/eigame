@@ -234,7 +234,7 @@ official page!</h1>
 	<area alt="" coords="631, 108, 46" href="store.html" shape="circle">
 	<area alt="" coords="171, 315, 46" href="https://www.youtube.com/@EIgameLOL" shape="circle">
 </map>
-<img alt="" src="ui/space.png" class="portal-img" usemap="#ImgMap0"></p>
+<img alt="" src="ui/space.png" class="portal-img" usemap="#ImgMap0" id="portal"></p>
 
 <div class="events-box">
 
@@ -369,9 +369,16 @@ document.getElementById("zoomBox").style.display = "none";
 <img id="zoomImg">
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/imageMapResizer.min.js"></script>
 
+<script>
+window.onload = function(){
+  imageMapResize();
+}
+</script>
 </body>
 </html>
+
 
 
 
