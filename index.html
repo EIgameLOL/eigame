@@ -366,11 +366,27 @@ document.getElementById("zoomBox").style.display = "none";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/image-map-resizer/1.0.10/imageMapResizer.min.js"></script>
 
 <script>
-window.onload = function(){
-  imageMapResize();
-}
-</script>
+window.addEventListener("load", function(){
 
+  imageMapResize();
+
+  const img = document.getElementById("portal");
+
+  if(img.complete){
+    imageMapResize();
+  }else{
+    img.onload = function(){
+      imageMapResize();
+    }
+  }
+
+  window.addEventListener("resize", function(){
+    imageMapResize();
+  });
+
+});
+</script>
+	
 <div id="zoomBox" onclick="closeZoom()">
 
 <img id="zoomImg">
@@ -379,6 +395,7 @@ window.onload = function(){
 
 </body>
 </html>
+
 
 
 
