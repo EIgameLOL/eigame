@@ -1,204 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EIgameLOL webpage - Welcome </title>
+<meta content="en-us" http-equiv="Content-Language">
+<meta charset="UTF-8">
+<title>EIgameLOL - Game is cooking GG</title>
 
-  <link rel="stylesheet" href="style.css">
-
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="icon" href="icon.ico" type="image/x-icon">
-</head>
-
-<style>
-.thumb {
-  width: 48%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-#zoom {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-#zoom img {
-  max-width: 90%;
-  max-height: 90%;
-}
-</style>
-</head>
-
-<body>
-
-<div id="wrapper">
-
-  <!-- HEADER -->
-  <div id="header">
-    <img src="ui/banner.png" width="1001" height="219" alt="">
-  </div>
-
-  <!-- MENU + SEARCH -->
-  <div id="menu">
-    <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a>
-
-    <form id="searchBox" action="search.html" method="get">
-      <input type="text" name="q" placeholder="Search" required>
-      <button type="submit">Go</button>
-    </form>
-  </div>
-
-  <!-- IMAGE MENU -->
-  <div id="img-menu">
-    <a href="news.html"><img src="ui/news.png"></a>
-    <a href="comics.html"><img src="ui/comics.png"></a>
-    <a href="games.html"><img src="ui/games.png"></a>
-    <a href="fanarts.html"><img src="ui/fanarts.png"></a>
-    <a href="#"><img src="ui/gameart.png"></a>
-  </div>
-
-  <div id="main">
-
-    <div class="left">
-
-      <div class="window">
-        <h3>Latest</h3>
-        <p><img src="images/comingsoon.png" width="100%"  alt=""/>New post or events is coming soon lol!</p>
-      </div>
-
-      <div class="window">
-        <h3>Fanarts</h3>
-        <div id="fanartsBox"></div>
-        <p class="more"><a href="fanarts.html">More details...</a></p>
-      </div>
-      
-    </div>
-
-    <div class="center">
-      <div class="window">
-        <h3>News</h3>
-        <div id="newsBox">Loading...</div>
-        <p class="more"><a href="news.html">More details...</a></p>
-      </div>
-    </div>
-
-    <div class="right">
-      <div class="window">
-        <h3>Socials</h3>
-        <a href="https://www.youtube.com/@EIgameLOL"><img src="icon/yt.png"></a><br>
-        <a href="https://www.tiktok.com/@eigamelol"><img src="icon/tk.png"></a><br>
-        <a href="https://x.com/EIgameLOL"><img src="icon/tw.png"></a><br>
-        <a href="https://discord.gg/uTy97rYeTk"><img src="icon/dc.png"></a><br>
-        <a href="https://eigamelol.newgrounds.com/"><img src="icon/ng.png"></a><br>
-        <a href="#"><img src="icon/sf.png"></a>
-        <a href="https://www.instagram.com/eigamelol/"><img src="icon/ig.png"></a>
-      </div>
-
-      <div class="window">
-        <img src="images/ad-vertical.png" width="100%">
-      </div>
-    </div>
-
-    <div class="clear"></div>
-  </div>
-
-  <div id="footer">
-    | <a href="index.html">Home</a> |
-    <a href="about.html">About Us</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="safety.html">Safety</a> |
-    <a href="info.html">Info</a> |<br>
-    ©2026 ElgameLOL
-  </div>
-
-</div>
-
-<div id="zoom" onclick="this.style.display='none'">
-  <img id="zoomImg">
-</div>
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="icon" href="icon.ico" type="image/x-icon">
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
 firebase.initializeApp({
-  apiKey: "AIzaSyBnyQoublVGkkJoInjaFlAvyS_a28sqB7o",
-  authDomain: "eigame-fanarts.firebaseapp.com",
-  databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com",
-  projectId: "eigame-fanarts"
+  apiKey: "AIzaSyxxxxx",
+  authDomain: "eigamelol.firebaseapp.com",
+  databaseURL: "https://eigame-fanarts-default-rtdb.firebaseio.com/",
+  projectId: "eigamelol"
 });
+</script>
 
-firebase.database().ref("fanarts")
-.limitToLast(4)
-.on("value", function(snap) {
-  var box = document.getElementById("fanartsBox");
-  box.innerHTML = "";
+<style>
 
-  snap.forEach(function(s) {
-    var img = document.createElement("img");
-    img.src = s.val().img;
-    img.className = "thumb";
+@font-face {
+  font-family:'GameShape';
+  src:url('./GameShape-Regular.woff2') format('woff2'),
+      url('./GameShape-Regular.woff') format('woff');
+}
 
-    img.onclick = function() {
-      zoomImg.src = img.src;
-      zoom.style.display = "flex";
-    };
+body{
+font-family:"MS Sans Serif";
+font-size:small;
+color:white;
+background:black url('ui/star.png') repeat;
+}
 
-    box.appendChild(img);
-  });
-});
+a{
+color:blue;
+text-decoration:none;
+}
+
+a:hover{
+color:yellow;
+}
+
+h1{
+font-family:GameShape;
+font-size:xx-large;
+}
+
+.center{
+text-align:center;
+}
+
+.yellow{
+color:#FFD200;
+}
+
+.events-box{
+width:850px;
+margin:20px auto;
+background:#0A23FF;
+color:white;
+padding:2px;
+display:flex;
+align-items:center;
+border:2px solid #0018A8;
+}
+
+.events-img{
+width:180px;
+height:90px;
+object-fit:cover;
+margin-right:10px;
+}
+
+.events-text{
+font-size:medium;
+}
+
+.news-box{
+width:850px;
+background:#CFCFCF;
+color:black;
+margin:20px auto;
+padding:10px;
+font-family:Arial;
+}
+
+.news-header{
+background:#00FF00;
+color:black;
+font-family:GameShape;
+font-size:28px;
+padding:5px 10px;
+margin-bottom:10px;
+}
+
+.news-item{
+display:flex;
+margin-bottom:20px;
+}
+
+.news-imgbox{
+position:relative;
+width:80px;
+height:80px;
+margin-right:15px;
+}
+
+.news-img{
+width:80px;
+height:80px;
+border:2px solid black;
+object-fit:cover;
+}
+
+.news-date{
+position:absolute;
+top:-10px;
+left:-10px;
+background:white;
+color:black;
+font-size:11px;
+padding:2px 4px;
+border:1px solid black;
+}
+
+.news-title{
+font-weight:bold;
+font-size:18px;
+}
+
+.news-text{
+max-width:650px;
+}
+
+#zoomBox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+#zoomImg{
+max-width:90%;
+max-height:90%;
+border:4px solid white;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 class="center">
+Welcome to <span class="yellow">EIgameLOL's</span> official page!
+</h1>
+
+<p class="center">What are you going to?:</p>
+
+<p class="center">
+
+<map name="ImgMap0">
+<area coords="404,74,42" href="https://discord.gg/uTy97rYeTk" shape="circle">
+<area coords="167,100,42" href="galley.html" shape="circle">
+<area coords="399,348,41" href="socials.html" shape="circle">
+<area coords="647,299,32" href="stuffs.html" shape="circle">
+<area coords="631,108,46" href="store.html" shape="circle">
+<area coords="171,315,46" href="https://www.youtube.com/@EIgameLOL" shape="circle">
+</map>
+
+<img src="ui/space.png" usemap="#ImgMap0">
+
+</p>
+
+<div class="events-box">
+
+<a href="events.html">
+<img src="images/events.png" class="events-img">
+</a>
+
+<div class="events-text">
+
+<b>3/11/2026</b><br>
+
+Events is also coming soon! If I have a new event I will post here.
+
+</div>
+
+</div>
+
+<div class="news-box">
+
+<div class="news-header">News</div>
+
+<div id="news-list">
+Loading news...
+</div>
+
+<a href="news.html">More News Archives >></a>
+
+</div>
+
+<p class="center">
+| <a href="about.html">About Us</a> |
+<a href="privacy.html">Privacy Policy</a> |
+<a href="info.html">Info</a> |
+<a href="contact.html">Contact Us</a> |
+</p>
+
+<p class="center">Copyright ©2026 EIgameLOL</p>
+
+<script>
+
+const list = document.getElementById("news-list");
 
 firebase.database().ref("news")
-.limitToLast(5)
-.on("value", function(snapshot) {
+.orderByChild("time")
+.limitToLast(3)
+.once("value")
+.then(snapshot => {
 
-  var box = document.getElementById("newsBox");
-  box.innerHTML = "";
+let news=[];
 
-  snapshot.forEach(function(child){
-    var d = child.val();
-    var date = new Date(d.time).toLocaleDateString();
+snapshot.forEach(child=>{
+let d=child.val();
+d._key=child.key;
+news.push(d);
+});
 
-    box.innerHTML +=
-      '<div class="index-news-item">' +
+news.sort((a,b)=>b.time-a.time);
 
-        '<div class="index-news-date">' + date + '</div>' +
-
-        '<div class="index-news-body">' +
-
-          (d.img
-            ? '<img src="' + d.img + '" class="index-news-img" onclick="openZoom(this.src)">'
-            : ''
-          ) +
-
-          '<div class="index-news-text">' +
-            '<div class="index-news-title">' + (d.title || '') + '</div>' +
-            '<div class="index-news-desc">' + (d.desc || '') + '</div>' +
-          '</div>' +
-
-        '</div>' +
-
-      '</div>';
-  });
+renderNews(news);
 
 });
-</script>
-<script>
-function openZoom(src){
-  var zoom = document.getElementById("zoom");
-  var zoomImg = document.getElementById("zoomImg");
-  zoomImg.src = src;
-  zoom.style.display = "flex";
+
+function renderNews(news){
+
+list.innerHTML="";
+
+news.forEach(d=>{
+
+let date=new Date(d.time).toLocaleDateString();
+
+list.innerHTML+=`
+
+<div class="news-item">
+
+<div class="news-imgbox">
+
+<div class="news-date">${date}</div>
+
+${d.img ? `<img src="${d.img}" class="news-img" onclick="openZoom('${d.img}')">` : ""}
+
+</div>
+
+<div class="news-text">
+
+<div class="news-title">${d.title || ""}</div>
+
+<p>${d.desc || ""}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
 }
+
+function openZoom(src){
+document.getElementById("zoomImg").src=src;
+document.getElementById("zoomBox").style.display="flex";
+}
+
+function closeZoom(){
+document.getElementById("zoomBox").style.display="none";
+}
+
 </script>
+
+<div id="zoomBox" onclick="closeZoom()">
+<img id="zoomImg">
+</div>
+
 </body>
 </html>
