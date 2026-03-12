@@ -8,101 +8,115 @@
 <link rel="icon" href="icon.ico" type="image/x-icon">
 
 <style>
-@font-face {
-  font-family:'GameShape';
-  src:url('./GameShape-Regular.woff2') format('woff2'),
-      url('./GameShape-Regular.woff') format('woff');
-}
-	
+
 body{
-    font-family: "MS Sans Serif";
     background:black;
     color:white;
+    font-family:"MS Sans Serif";
+    margin:0;
 }
-
+.container{
+    width:900px;
+    margin:auto;
+}
 .title{
-    font-family: GameShape;
+    font-family:GameShape;
     font-size:40px;
+    margin-top:30px;
 }
-
 .red{color:red;}
 .blue{color:blue;}
 .green{color:lime;}
 .yellow{color:yellow;}
 
-.auto-style1{
+.line{
     font-family:"Arial Black";
 }
 .section{
     display:flex;
-    align-items:flex-start;
     gap:30px;
-    margin-left:44px;
+    margin-top:40px;
+    align-items:flex-start;
 }
-
+.section img{
+    width:206px;
+    height:164px;
+}
 .text{
-    max-width:700px;
+    max-width:650px;
 }
 
 .section-title{
     font-size:24px;
     margin-bottom:10px;
 }
-
-.auto-style8 {
-	text-align: center;
-	font-size: medium;
+footer{
+    text-align:center;
+    margin-top:50px;
 }
+
 </style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h1 class="title">
-&nbsp;&nbsp;&nbsp;&nbsp; Game's stuffs
-<span class="auto-style1">
+Game's stuffs
+<span class="line">
 <span class="red">________</span><span class="blue">________</span><span class="green">________</span><span class="yellow">________</span>
 </span>
 </h1>
 
-<div class="section">
-
-<a href="kuylol/index.html">
-<img src="icon/kuylol.png" width="206" height="164" alt="">
-</a>
-
-<div class="text">
-<p class="section-title"><strong>The Kuylol</strong></p>
-
-<p>
-There are 5 guys have Game, Alfee, Kon, Deen and Del come to adventure with somethings they're never seen before, Suitable for ages 13+ as some may contain inappropriate content
-</p>
-</div>
-
-</div>
-
 
 <div class="section">
 
-<a href="blackghost/index.html">
-<img src="icon/blackghost.png" width="206" height="164" alt="">
+<a href="webpage/kuylol/index.html">
+<img src="icon/kuylol.png" alt="Kuylol">
 </a>
 
 <div class="text">
-<p class="section-title"><strong>Blackghost</strong></p>
+<div class="section-title"><strong>The Kuylol</strong></div>
 
 <p>
-When Game, Alfee and Kon get stuck in the forests and they found an abandoned mansion, they become trapped inside and some scary things is coming before finding a way to escape.
+There are 5 guys have Game, Alfee, Kon, Deen and Del come to adventure with somethings they're never seen before. Suitable for ages 13+ as some may contain inappropriate content.
 </p>
-</div>
 
 </div>
+</div>
+
+
+<div class="section">
+
+<a href="webpage/blackghost/index.html">
+<img src="icon/blackghost.png" alt="Blackghost">
+</a>
+
+<div class="text">
+<div class="section-title"><strong>Blackghost</strong></div>
+
+<p>
+When Game, Alfee and Kon get stuck in the forests and they find an abandoned mansion, they become trapped inside and scary things begin to happen before they can find a way to escape.
+</p>
+
+</div>
+</div>
+
+
 <hr>
-<p class="auto-style8">Copyright ©2026 ElgameLOL</p>
+
+	<footer>
+
+		<p>Copyright ©2026 EIgameLOL</p>
+
 <a href="index.html">
-<p class="auto-style8"><img alt="" height="31" src="ui/button.png" width="100"></p>
+<img src="ui/button.png" width="100" height="31" alt="">
+</a>
+
+</footer>
+
+</div>
+
 </body>
-
 </html>
-
-
